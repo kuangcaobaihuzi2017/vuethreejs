@@ -7,3 +7,9 @@ npm install
 ```
 npm run serve
 ```
+
+# 本项目实现了什么？
+```
+利用了three+vue+vuetify等框架，实现一个单页面网站，非Demo，
+利用画布外的按钮来控制画布里的内容
+```
