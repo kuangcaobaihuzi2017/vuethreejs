@@ -6,6 +6,7 @@ npm install
 ## 启动服务
 ```
 npm run serve
+// 然后浏览器访问localhost端口号
 ```
 
 # 本项目实现了什么？
