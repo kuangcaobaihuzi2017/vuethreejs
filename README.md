@@ -1,24 +1,9 @@
-# bs_dynamic
-
-## Project setup
+# 怎么启动
+## 先安装依赖包
 ```
 npm install
 ```
-
-### Compiles and hot-reloads for development
+## 先安装依赖包
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
