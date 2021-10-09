@@ -14,13 +14,13 @@
     </v-app-bar>
 
     <!-- 根据应用组件来调整你的内容 -->
-    <v-main>
+    <v-main style="padding-top: 48px">
       <!-- 给应用提供合适的间距 -->
       <common-body></common-body>
     </v-main>
     <v-footer dark padless>
       <v-card class="flex" flat tile>
-        <v-card-text class="py-2 white--text text-center"> {{ new Date().getFullYear() }} — <strong>Vuetify</strong> </v-card-text>
+        <v-card-text class="py-3 purple white--text text-center"> {{ new Date().getFullYear() }} — <strong>Vuetify</strong> </v-card-text>
       </v-card>
     </v-footer>
   </v-app>

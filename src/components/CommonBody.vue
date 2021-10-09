@@ -39,6 +39,7 @@ export default {
        * 相机设置
        */
       let container = document.getElementById('container')
+
       this.camera = new THREE.PerspectiveCamera(70, container.clientWidth / container.clientHeight, 0.01, 10)
       this.camera.position.z = 1
 
@@ -47,6 +48,11 @@ export default {
        */
       this.renderer = new THREE.WebGLRenderer({ antialias: true })
       this.renderer.setSize(container.clientWidth, container.clientHeight)
+      window.addEventListener('resize', () => {
+        this.renderer.setSize(window.innerWidth, window.innerHeight)
+        this.camera.aspect = window.innerWidth / window.innerHeight
+        this.camera.updateProjectionMatrix()
+      })
       container.appendChild(this.renderer.domElement)
 
       //创建控件对象
