@@ -1,24 +1,15 @@
-# bs_dynamic
-
-## Project setup
+# 如何启动或者使用本项目？
+## 安装相关依赖
 ```
 npm install
 ```
-
-### Compiles and hot-reloads for development
+## 启动服务
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+# 本项目实现了什么？
 ```
-npm run build
+利用了three+vue+vuetify等框架，实现一个单页面网站，非Demo，
+利用画布外的按钮来控制画布里的内容
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
