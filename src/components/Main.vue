@@ -14,7 +14,7 @@
     </v-app-bar>
 
     <!-- 根据应用组件来调整你的内容 -->
-    <v-main style="padding: 48px 0px 0px;">
+    <v-main style="padding: 48px 0px 0px">
       <!-- 给应用提供合适的间距 -->
       <common-body></common-body>
     </v-main>
