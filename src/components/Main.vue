@@ -13,9 +13,7 @@
       </v-btn>
     </v-app-bar>
 
-    <!-- 根据应用组件来调整你的内容 -->
-    <v-main style="padding: 48px 0px 0px">
-      <!-- 给应用提供合适的间距 -->
+    <v-main style="padding: 0px; height: 700px">
       <common-body></common-body>
     </v-main>
     <v-footer dark padless>
