@@ -25,18 +25,28 @@ export default {
   methods: {
     initScene: function () {
       this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color(0x000000)
-      //网格模型添加到场景中
-      let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2)
-      let material = new THREE.MeshNormalMaterial({
-        color: 'white',
-      })
-      this.mesh = new THREE.Mesh(geometry, material)
-      this.scene.add(this.mesh)
+      this.scene.background = new THREE.Color(0xa0a0a0)
+      const grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+				grid.material.opacity = 0.2;
+				grid.material.transparent = true;
+				this.scene.add( grid );
+        this.scene.background = new THREE.Color( 0xa0a0a0 );
+        const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
+				hemiLight.position.set( 0, 200, 0 );
+				this.scene.add( hemiLight );
+
+        const directionalLight = new THREE.DirectionalLight( 0xffffff );
+				directionalLight.position.set( 0, 200, 100 );
+				directionalLight.castShadow = true;
+				directionalLight.shadow.camera.top = 180;
+				directionalLight.shadow.camera.bottom = - 100;
+				directionalLight.shadow.camera.left = - 120;
+				directionalLight.shadow.camera.right = 120;
+				this.scene.add( directionalLight );
     },
     initCamera: function () {
-      this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10)
-      this.camera.position.z = 1
+      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
+      this.camera.position.set( 200, 100, 200 );
     },
     initRenderer: function () {
       this.renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -53,8 +63,6 @@ export default {
     },
     animate: function () {
       requestAnimationFrame(this.animate)
-      this.mesh.rotation.x += 0.01
-      this.mesh.rotation.y += 0.02
       this.renderer.render(this.scene, this.camera)
     },
     init: function () {
