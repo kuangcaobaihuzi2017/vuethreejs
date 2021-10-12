@@ -14,3 +14,10 @@ npm run serve
 利用了three+vue+vuetify等框架，实现一个单页面网站，非Demo，
 利用画布外的按钮来控制画布里的内容
 ```
+
+# TODO
+```
+让header,body,footer在同一个页面
+但是未做到让这三个部分成比例缩放
+还需要改进
+```

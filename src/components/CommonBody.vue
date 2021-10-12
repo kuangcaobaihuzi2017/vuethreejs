@@ -25,18 +25,26 @@ export default {
   methods: {
     initScene: function () {
       this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color(0x000000)
-      //网格模型添加到场景中
-      let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2)
-      let material = new THREE.MeshNormalMaterial({
-        color: 'white',
-      })
-      this.mesh = new THREE.Mesh(geometry, material)
-      this.scene.add(this.mesh)
+      this.scene.background = new THREE.Color('rgb(255, 255, 240)')
+    },
+    // 网格辅助线
+    initGird: function () {
+      // 第一个参数表示网格整个大小，第二个表示网格密度
+      const grid = new THREE.GridHelper(2000, 45, 'rgb(0, 0, 0)', 'rgb(0, 0, 0)')
+      // 表示辅助网格的透明度，最大是1表示完全不透明
+      grid.material.opacity = 0.17
+      // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
+      grid.material.transparent = true
+      this.scene.add(grid)
+    },
+    intiHemiLight: function () {
+      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444)
+      hemiLight.position.set(0, 600, 0)
+      this.scene.add(hemiLight)
     },
     initCamera: function () {
-      this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10)
-      this.camera.position.z = 1
+      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
+      this.camera.position.set(200, 100, 200)
     },
     initRenderer: function () {
       this.renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -53,13 +61,13 @@ export default {
     },
     animate: function () {
       requestAnimationFrame(this.animate)
-      this.mesh.rotation.x += 0.01
-      this.mesh.rotation.y += 0.02
       this.renderer.render(this.scene, this.camera)
     },
     init: function () {
       this.container = document.getElementById('container')
       this.initScene()
+      this.initGird()
+      this.intiHemiLight()
       this.initCamera()
       this.initRenderer()
       this.animate()
