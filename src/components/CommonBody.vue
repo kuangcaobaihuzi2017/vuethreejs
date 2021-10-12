@@ -7,6 +7,7 @@
 <script>
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 export default {
   data() {
     return {
@@ -16,6 +17,7 @@ export default {
       orbcitControls: null,
       container: null,
       front: null,
+      groundMirror: null,
     }
   },
   mounted() {
@@ -63,12 +65,47 @@ export default {
       requestAnimationFrame(this.animate)
       this.renderer.render(this.scene, this.camera)
     },
+    initMirrorGround: function () {
+      const planeGeo = new THREE.PlaneGeometry(100.1, 100.1)
+      this.groundMirror = new Reflector(planeGeo, {
+        clipBias: 0.003,
+        textureWidth: window.innerWidth * window.devicePixelRatio,
+        textureHeight: window.innerHeight * window.devicePixelRatio,
+      })
+      this.groundMirror.position.y = 0.5
+      this.groundMirror.rotateX(-Math.PI / 2)
+      this.scene.add(this.groundMirror)
+
+      let sphereGroup = new THREE.Object3D()
+      this.scene.add(sphereGroup)
+
+      let geometry = new THREE.CylinderGeometry(0.1, 15 * Math.cos((Math.PI / 180) * 30), 0.1, 24, 1)
+      material = new THREE.MeshPhongMaterial({ color: 0xffffff, emissive: 0x444444 })
+      const sphereCap = new THREE.Mesh(geometry, material)
+      sphereCap.position.y = -15 * Math.sin((Math.PI / 180) * 30) - 0.05
+      sphereCap.rotateX(-Math.PI)
+
+      geometry = new THREE.SphereGeometry(15, 24, 24, Math.PI / 2, Math.PI * 2, 0, (Math.PI / 180) * 120)
+      const halfSphere = new THREE.Mesh(geometry, material)
+      halfSphere.add(sphereCap)
+      halfSphere.rotateX((-Math.PI / 180) * 135)
+      halfSphere.rotateZ((-Math.PI / 180) * 20)
+      halfSphere.position.y = 7.5 + 15 * Math.sin((Math.PI / 180) * 30)
+
+      sphereGroup.add(halfSphere)
+
+      geometry = new THREE.IcosahedronGeometry(5, 0)
+      let material = new THREE.MeshPhongMaterial({ color: 0xffffff, emissive: 0x333333, flatShading: true })
+      let smallSphere = new THREE.Mesh(geometry, material)
+      this.scene.add(smallSphere)
+    },
     init: function () {
       this.container = document.getElementById('container')
       this.initScene()
       this.initGird()
       this.intiHemiLight()
       this.initCamera()
+      this.initMirrorGround()
       this.initRenderer()
       this.animate()
       this.initOrbitController()
