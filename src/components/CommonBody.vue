@@ -27,14 +27,14 @@ export default {
   methods: {
     initScene: function () {
       this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color('rgb(255, 255, 240)')
+      this.scene.background = new THREE.Color('rgb(126, 192, 238)')
     },
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
-      const grid = new THREE.GridHelper(2000, 45, 'rgb(0, 0, 0)', 'rgb(0, 0, 0)')
+      const grid = new THREE.GridHelper(200, 45, 'rgb(0, 0, 0)', 'rgb(0, 0, 0)')
       // 表示辅助网格的透明度，最大是1表示完全不透明
-      grid.material.opacity = 0.17
+      grid.material.opacity = 0.2
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
       grid.material.transparent = true
       this.scene.add(grid)
@@ -66,7 +66,7 @@ export default {
       this.renderer.render(this.scene, this.camera)
     },
     initMirrorGround: function () {
-      const planeGeo = new THREE.PlaneGeometry(100.1, 100.1)
+      const planeGeo = new THREE.BoxGeometry(100, 100 , 5)
       this.groundMirror = new Reflector(planeGeo, {
         clipBias: 0.003,
         textureWidth: window.innerWidth * window.devicePixelRatio,
@@ -76,27 +76,10 @@ export default {
       this.groundMirror.rotateX(-Math.PI / 2)
       this.scene.add(this.groundMirror)
 
-      let sphereGroup = new THREE.Object3D()
-      this.scene.add(sphereGroup)
-
-      let geometry = new THREE.CylinderGeometry(0.1, 15 * Math.cos((Math.PI / 180) * 30), 0.1, 24, 1)
-      material = new THREE.MeshPhongMaterial({ color: 0xffffff, emissive: 0x444444 })
-      const sphereCap = new THREE.Mesh(geometry, material)
-      sphereCap.position.y = -15 * Math.sin((Math.PI / 180) * 30) - 0.05
-      sphereCap.rotateX(-Math.PI)
-
-      geometry = new THREE.SphereGeometry(15, 24, 24, Math.PI / 2, Math.PI * 2, 0, (Math.PI / 180) * 120)
-      const halfSphere = new THREE.Mesh(geometry, material)
-      halfSphere.add(sphereCap)
-      halfSphere.rotateX((-Math.PI / 180) * 135)
-      halfSphere.rotateZ((-Math.PI / 180) * 20)
-      halfSphere.position.y = 7.5 + 15 * Math.sin((Math.PI / 180) * 30)
-
-      sphereGroup.add(halfSphere)
-
-      geometry = new THREE.IcosahedronGeometry(5, 0)
+      let geometry = new THREE.IcosahedronGeometry(5, 0)
       let material = new THREE.MeshPhongMaterial({ color: 0xffffff, emissive: 0x333333, flatShading: true })
       let smallSphere = new THREE.Mesh(geometry, material)
+      smallSphere.position.y = 10
       this.scene.add(smallSphere)
     },
     init: function () {
