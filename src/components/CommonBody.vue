@@ -66,9 +66,10 @@ export default {
       this.renderer.render(this.scene, this.camera)
     },
     initMirrorGround: function () {
-      const planeGeo = new THREE.BoxGeometry(100, 100 , 5)
+      const planeGeo = new THREE.BoxGeometry(100, 100, 5)
+      // 这个是透明度
       this.groundMirror = new Reflector(planeGeo, {
-        clipBias: 0.003,
+        clipBias: 0.03,
         textureWidth: window.innerWidth * window.devicePixelRatio,
         textureHeight: window.innerHeight * window.devicePixelRatio,
       })
