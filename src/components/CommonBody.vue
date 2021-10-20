@@ -80,8 +80,10 @@ export default {
 
     animate: function () {
       requestAnimationFrame(this.animate)
-      let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.001
+      if (this.$store.state.postion) {
+        let vect = this.camera.getWorldDirection(new THREE.Vector3())
+        this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.001
+      }
       this.renderer.render(this.scene, this.camera)
     },
 
@@ -92,7 +94,6 @@ export default {
       this.intiHemiLight()
       this.initCamera()
       this.initRenderer()
-      this.animate()
       this.initOrbitController()
       this.container.appendChild(this.renderer.domElement)
     },
