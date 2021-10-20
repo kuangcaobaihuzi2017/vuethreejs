@@ -55,9 +55,10 @@ export default {
     },
 
     initCamera: function () {
-      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 100)
-      this.camera.position.set(0, 2, 0)
-      this.camera.lookAt(new THREE.Vector3(0, 2, 0))
+      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
+      // 相机位置xyz
+      this.camera.position.set(35, 10, 0)
+      this.camera.lookAt(new THREE.Vector3(0, 0, 0))
     },
 
     initRenderer: function () {
@@ -79,6 +80,8 @@ export default {
 
     animate: function () {
       requestAnimationFrame(this.animate)
+      let vect = this.camera.getWorldDirection(new THREE.Vector3())
+      this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.001
       this.renderer.render(this.scene, this.camera)
     },
 
