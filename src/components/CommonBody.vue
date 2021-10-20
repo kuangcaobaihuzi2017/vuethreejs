@@ -80,10 +80,19 @@ export default {
 
     animate: function () {
       requestAnimationFrame(this.animate)
-      if (this.$store.state.postion) {
-        let vect = this.camera.getWorldDirection(new THREE.Vector3())
-        this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.001
+
+      let vect = this.camera.getWorldDirection(new THREE.Vector3())
+      if (this.$store.state.position) {
+        this.camera.position.z -= vect.dot(new THREE.Vector3(35, 10, 0)) * 0.04
+        if (this.camera.position.z > 70) {
+          this.$store.commit('changeStatus')
+        }
+        console.log('this.camera.position.z : ' + this.camera.position.z)
       }
+      // 把相机的位置实时提交到store
+      this.$store.commit('setCameraPosition', {
+        cameraPositition: vect,
+      })
       this.renderer.render(this.scene, this.camera)
     },
 
