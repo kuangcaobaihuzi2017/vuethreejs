@@ -34,7 +34,7 @@ export default {
       // 第一个参数表示网格整个大小，第二个表示网格密度
       const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000)
       // 表示辅助网格的透明度，最大是1表示完全不透明
-      grid.material.opacity = 0.2
+      grid.material.opacity = 0.07
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
       grid.material.transparent = true
       this.scene.add(grid)
@@ -57,7 +57,7 @@ export default {
     initCamera: function () {
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
       // 相机位置xyz
-      this.camera.position.set(35, 10, 0)
+      this.camera.position.set(70, 10, 0)
       this.camera.lookAt(new THREE.Vector3(0, 0, 0))
     },
 
@@ -83,8 +83,8 @@ export default {
 
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
       if (this.$store.state.position) {
-        this.camera.position.z -= vect.dot(new THREE.Vector3(35, 10, 0)) * 0.04
-        if (this.camera.position.z > 70) {
+        this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.04
+        if (this.camera.position.z == -70) {
           this.$store.commit('changeStatus')
         }
         console.log('this.camera.position.z : ' + this.camera.position.z)
