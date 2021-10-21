@@ -21,3 +21,8 @@ npm run serve
 但是未做到让这三个部分成比例缩放
 还需要改进
 ```
+
+# 代码格式化
+```
+npm run lint -- --fixSol
+```
