@@ -28,7 +28,6 @@ export default {
       this.scene = new THREE.Scene()
       this.scene.background = new THREE.Color(0xe0e0e0)
     },
-
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
@@ -53,14 +52,6 @@ export default {
       dirLight.position.set(0, 20, 10)
       this.scene.add(dirLight)
     },
-
-    initCamera: function () {
-      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
-      // 相机位置xyz
-      this.camera.position.set(70, 10, 0)
-      this.camera.lookAt(new THREE.Vector3(0, 0, 0))
-    },
-
     initRenderer: function () {
       this.renderer = new THREE.WebGLRenderer({ antialias: true })
       this.renderer.setPixelRatio(window.devicePixelRatio)
