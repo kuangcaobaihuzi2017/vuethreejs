@@ -29,6 +29,10 @@ export default {
       this.scene = new THREE.Scene()
       this.scene.background = new THREE.Color('rgb(126, 192, 238)')
     },
+    initCamera: function () {
+      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
+      this.camera.position.set( 0, 250, 1000 )
+    },
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
@@ -43,10 +47,6 @@ export default {
       const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444)
       hemiLight.position.set(0, 600, 0)
       this.scene.add(hemiLight)
-    },
-    initCamera: function () {
-      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
-      this.camera.position.set(200, 100, 200)
     },
     initRenderer: function () {
       this.renderer = new THREE.WebGLRenderer({ antialias: true })
