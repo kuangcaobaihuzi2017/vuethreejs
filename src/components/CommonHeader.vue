@@ -20,8 +20,7 @@
 export default {
   methods: {
     moveToProducts() {
-      console.log('has been clicked')
-      this.$store.commit('changeStatus')
+      this.$store.commit('changePosition')
     },
   },
 }

@@ -73,12 +73,12 @@ export default {
       requestAnimationFrame(this.animate)
 
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      if (this.$store.state.position) {
-        this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.04
-        if (this.camera.position.z == -70) {
-          this.$store.commit('changeStatus')
+      console.log(vect)
+      if (this.$store.state.positionChangeFlag) {
+        for (var i = 0; i < 20; i++) {
+          this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.01
         }
-        console.log('this.camera.position.z : ' + this.camera.position.z)
+        this.$store.commit('changePosition')
       }
       // 把相机的位置实时提交到store
       this.$store.commit('setCameraPosition', {
