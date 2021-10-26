@@ -73,10 +73,14 @@ export default {
       requestAnimationFrame(this.animate)
 
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      console.log(vect)
+
       if (this.$store.state.positionChangeFlag) {
         for (var i = 0; i < 20; i++) {
-          this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.01
+          console.log('vect : ' + vect.z)
+          var checkVector = new THREE.Vector3(35, 10, 0)
+          console.log('checkVector : ' + checkVector.z)
+          this.camera.position.z += vect.dot(checkVector) * 0.01
+          console.log('this.camera.position.z : ' + this.camera.position.z)
         }
         this.$store.commit('changePosition')
       }
