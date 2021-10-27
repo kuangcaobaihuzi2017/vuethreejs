@@ -10,6 +10,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 export default {
   data() {
     return {
+      timer: 0,
       camera: null,
       scene: null,
       renderer: null,
@@ -26,7 +27,7 @@ export default {
   methods: {
     initScene: function () {
       this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color(0xe0e0e0)
+      this.scene.background = new THREE.Color('rgb(245,245,245)')
     },
     // 网格辅助线
     initGird: function () {
@@ -73,18 +74,25 @@ export default {
       requestAnimationFrame(this.animate)
 
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-
-      if (this.$store.state.positionChangeFlag) {
-        for (var i = 0; i < 20; i++) {
-          console.log('vect : ' + vect.z)
-          var checkVector = new THREE.Vector3(35, 10, 0)
-          console.log('checkVector : ' + checkVector.z)
-          this.camera.position.z += vect.dot(checkVector) * 0.01
-          console.log('this.camera.position.z : ' + this.camera.position.z)
-        }
-        this.$store.commit('changePosition')
+      if (this.timer == 300) {
+        this.scene.background = new THREE.Color(0, 0, 0)
       }
+      if (this.timer == 600) {
+        this.timer = 0
+        this.scene.background = new THREE.Color('rgb(245,245,245)')
+      }
+      // if (this.$store.state.positionChangeFlag) {
+      //   for (var i = 0; i < 20; i++) {
+      //     console.log('vect : ' + vect.z)
+      //     var checkVector = new THREE.Vector3(35, 10, 0)
+      //     console.log('checkVector : ' + checkVector.z)
+      //     this.camera.position.z += vect.dot(checkVector) * 0.01
+      //     console.log('this.camera.position.z : ' + this.camera.position.z)
+      //   }
+      //   this.$store.commit('changePosition')
+      // }
       // 把相机的位置实时提交到store
+      this.timer++
       this.$store.commit('setCameraPosition', {
         cameraPositition: vect,
       })
