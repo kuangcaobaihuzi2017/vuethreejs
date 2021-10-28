@@ -17,9 +17,10 @@ npm run serve
 
 # TODO
 ```
-让header,body,footer在同一个页面
+※让header,body,footer在同一个页面
 但是未做到让这三个部分成比例缩放
 还需要改进
+※可以实现背景的岁时间更改而更改
 ```
 
 # 代码格式化

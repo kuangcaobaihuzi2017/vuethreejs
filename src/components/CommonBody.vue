@@ -10,6 +10,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 export default {
   data() {
     return {
+      timer: 0,
       camera: null,
       scene: null,
       renderer: null,
@@ -26,21 +27,23 @@ export default {
   methods: {
     initScene: function () {
       this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color(0xe0e0e0)
+      this.scene.background = new THREE.Color(0xffffff)
+      this.scene.fog = new THREE.Fog(0xffffff, 2, 30)
     },
 
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
-      const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000)
+      const grid = new THREE.GridHelper(50, 50, 0x888888, 0x888888)
       // 表示辅助网格的透明度，最大是1表示完全不透明
-      grid.material.opacity = 0.2
+      // grid.material.opacity = 0.07
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
       grid.material.transparent = true
       this.scene.add(grid)
       // 地面的大小
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
       mesh.rotation.x = -Math.PI / 2
+      mesh.specular
       this.scene.add(mesh)
     },
 
@@ -57,8 +60,7 @@ export default {
     initCamera: function () {
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
       // 相机位置xyz
-      this.camera.position.set(35, 10, 0)
-      this.camera.lookAt(new THREE.Vector3(0, 0, 0))
+      this.camera.position.set(10, 1, 0)
     },
 
     initRenderer: function () {
@@ -80,10 +82,30 @@ export default {
 
     animate: function () {
       requestAnimationFrame(this.animate)
-      if (this.$store.state.postion) {
-        let vect = this.camera.getWorldDirection(new THREE.Vector3())
-        this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.001
-      }
+
+      let vect = this.camera.getWorldDirection(new THREE.Vector3())
+      // if (this.timer == 300) {
+      //   this.scene.background = new THREE.Color(0, 0, 0)
+      // }
+      // if (this.timer == 600) {
+      //   this.timer = 0
+      //   this.scene.background = new THREE.Color('rgb(245,245,245)')
+      // }
+      // if (this.$store.state.positionChangeFlag) {
+      //   for (var i = 0; i < 20; i++) {
+      //     console.log('vect : ' + vect.z)
+      //     var checkVector = new THREE.Vector3(35, 10, 0)
+      //     console.log('checkVector : ' + checkVector.z)
+      //     this.camera.position.z += vect.dot(checkVector) * 0.01
+      //     console.log('this.camera.position.z : ' + this.camera.position.z)
+      //   }
+      //   this.$store.commit('changePosition')
+      // }
+      // 把相机的位置实时提交到store
+      this.timer++
+      this.$store.commit('setCameraPosition', {
+        cameraPositition: vect,
+      })
       this.renderer.render(this.scene, this.camera)
     },
 
