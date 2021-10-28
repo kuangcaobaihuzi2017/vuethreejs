@@ -27,7 +27,8 @@ export default {
   methods: {
     initScene: function () {
       this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color('rgb(245,245,245)')
+      this.scene.background = new THREE.Color().setHSL(0.6, 0, 1)
+      this.scene.fog = new THREE.Fog(this.scene.background, 1, 5000)
     },
 
     // 网格辅助线
@@ -83,13 +84,13 @@ export default {
       requestAnimationFrame(this.animate)
 
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      if (this.timer == 300) {
-        this.scene.background = new THREE.Color(0, 0, 0)
-      }
-      if (this.timer == 600) {
-        this.timer = 0
-        this.scene.background = new THREE.Color('rgb(245,245,245)')
-      }
+      // if (this.timer == 300) {
+      //   this.scene.background = new THREE.Color(0, 0, 0)
+      // }
+      // if (this.timer == 600) {
+      //   this.timer = 0
+      //   this.scene.background = new THREE.Color('rgb(245,245,245)')
+      // }
       // if (this.$store.state.positionChangeFlag) {
       //   for (var i = 0; i < 20; i++) {
       //     console.log('vect : ' + vect.z)
