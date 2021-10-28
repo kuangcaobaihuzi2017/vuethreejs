@@ -1,18 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="purple" absolute dense dark>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-toolbar-title>Page title</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+    <common-header></common-header>
     <v-main style="padding: 0px; height: 700px">
       <common-body></common-body>
     </v-main>
@@ -26,10 +14,12 @@
 
 <script>
 import CommonBody from '@/components/CommonBody'
+import CommonHeader from '@/components/CommonHeader'
 
 export default {
   components: {
     CommonBody,
+    CommonHeader,
   },
 }
 </script>
