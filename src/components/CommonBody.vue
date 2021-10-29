@@ -36,7 +36,7 @@ export default {
       // 第一个参数表示网格整个大小，第二个表示网格密度
       const grid = new THREE.GridHelper(50, 50, 0x888888, 0x888888)
       // 表示辅助网格的透明度，最大是1表示完全不透明
-      // grid.material.opacity = 0.07
+      grid.material.opacity = 0.5
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
       grid.material.transparent = true
       this.scene.add(grid)
@@ -60,7 +60,7 @@ export default {
     initCamera: function () {
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
       // 相机位置xyz
-      this.camera.position.set(10, 1, 0)
+      this.camera.position.set(10, 2, 0)
     },
 
     initRenderer: function () {
