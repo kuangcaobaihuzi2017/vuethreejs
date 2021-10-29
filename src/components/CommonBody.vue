@@ -7,6 +7,7 @@
 <script>
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 export default {
   data() {
     return {
@@ -18,6 +19,7 @@ export default {
       container: null,
       front: null,
       groundMirror: null,
+      cloud: null,
     }
   },
   mounted() {
@@ -106,7 +108,32 @@ export default {
       this.$store.commit('setCameraPosition', {
         cameraPositition: vect,
       })
+      this.cloud.translateOnAxis(new THREE.Vector3(1, 0, 0), 0.0027)
       this.renderer.render(this.scene, this.camera)
+    },
+
+    importModel: function () {
+      const fBXLoader = new FBXLoader()
+      fBXLoader.load(
+        '/static/Poly_cloud_2_High.fbx',
+        (fbx) => {
+          fbx.position.set(0, 2.8, 0)
+          fbx.rotation.set(0, Math.PI, 0)
+          fbx.scale.set(0.005, 0.005, 0.005)
+          fbx.rotation.y = 30
+          fbx.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 1, 2)
+            }
+          })
+          this.cloud = fbx
+          this.scene.add(fbx)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
     },
 
     init: function () {
@@ -117,6 +144,7 @@ export default {
       this.initCamera()
       this.initRenderer()
       this.initOrbitController()
+      this.importModel()
       this.container.appendChild(this.renderer.domElement)
     },
   },
