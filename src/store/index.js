@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     positionChangeFlag: false,
     matrixPosition: '',
+    cloudGroup: [],
   },
   mutations: {
     setCameraPosition(state, positionDto) {

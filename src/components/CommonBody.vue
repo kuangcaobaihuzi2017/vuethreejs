@@ -19,7 +19,7 @@ export default {
       container: null,
       front: null,
       groundMirror: null,
-      cloud: null,
+      cloudNum: 0,
     }
   },
   mounted() {
@@ -108,26 +108,59 @@ export default {
       this.$store.commit('setCameraPosition', {
         cameraPositition: vect,
       })
-      this.cloud.translateOnAxis(new THREE.Vector3(1, 0, 0), 0.0027)
+
+      if (this.scene.getObjectByName('cloud0') !== undefined) {
+        // var cloud = this.scene.getObjectByName('cloud0')
+        // cloud.translateOnAxis(new THREE.Vector3(1, 0, 0), 0.003)
+        for (var i = 0; i < this.cloudNum; i++) {
+          this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
+        }
+      }
       this.renderer.render(this.scene, this.camera)
     },
 
-    importModel: function () {
-      const fBXLoader = new FBXLoader()
-      fBXLoader.load(
-        '/static/Poly_cloud_2_High.fbx',
-        (fbx) => {
-          fbx.position.set(0, 2.8, 0)
-          fbx.rotation.set(0, Math.PI, 0)
-          fbx.scale.set(0.005, 0.005, 0.005)
-          fbx.rotation.y = 30
-          fbx.traverse(function (child) {
+    importCloud: function () {
+      // 随机生成6-10个云朵
+      for (var count = 0; count <= Math.floor(Math.random() * 4) + 6; count++) {
+        var model = new FBXLoader()
+        model.load(
+          '/static/Poly_cloud_2_High.fbx',
+          (fbx) => {
+            fbx.position.set(Math.floor(Math.random() * 10) - 5, 2.8, Math.floor(Math.random() * 10) - 5)
+            fbx.rotation.set(0, 0, 0)
+            fbx.scale.set(0.002, 0.002, 0.002)
+            fbx.rotation.y = 30
+            fbx.name = 'cloud' + this.cloudNum
+            fbx.traverse(function (child) {
+              if (child instanceof THREE.Mesh) {
+                child.material.color.setRGB(1, 1, 2)
+              }
+            })
+            this.scene.add(fbx)
+            this.cloudNum++
+          },
+          undefined,
+          function (error) {
+            console.log(error)
+          }
+        )
+      }
+    },
+
+    importPegasasu: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Unicorn Pose 2.fbx',
+        (pegasasu) => {
+          pegasasu.position.set(0, 0, 0)
+          pegasasu.rotation.set(0, Math.PI * 0.8, 0)
+          pegasasu.scale.set(0.05, 0.05, 0.05)
+          pegasasu.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
-              child.material.color.setRGB(1, 1, 2)
+              child.material.color.setRGB(1, 0.5, 2)
             }
           })
-          this.cloud = fbx
-          this.scene.add(fbx)
+          this.scene.add(pegasasu)
         },
         undefined,
         function (error) {
@@ -144,7 +177,8 @@ export default {
       this.initCamera()
       this.initRenderer()
       this.initOrbitController()
-      this.importModel()
+      this.importCloud()
+      this.importPegasasu()
       this.container.appendChild(this.renderer.domElement)
     },
   },
