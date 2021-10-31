@@ -19,7 +19,8 @@ export default {
       container: null,
       front: null,
       groundMirror: null,
-      cloud: null,
+      cloudNum: 0,
+      mesh: null,
     }
   },
   mounted() {
@@ -36,7 +37,7 @@ export default {
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
-      const grid = new THREE.GridHelper(50, 50, 0x888888, 0x888888)
+      const grid = new THREE.GridHelper(700, 1000, 0x888888, 0x888888)
       // 表示辅助网格的透明度，最大是1表示完全不透明
       grid.material.opacity = 0.5
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
@@ -45,7 +46,6 @@ export default {
       // 地面的大小
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
       mesh.rotation.x = -Math.PI / 2
-      mesh.specular
       this.scene.add(mesh)
     },
 
@@ -108,32 +108,76 @@ export default {
       this.$store.commit('setCameraPosition', {
         cameraPositition: vect,
       })
-      this.cloud.translateOnAxis(new THREE.Vector3(1, 0, 0), 0.0027)
+
+      if (this.scene.getObjectByName('cloud0') !== undefined) {
+        // var cloud = this.scene.getObjectByName('cloud0')
+        // cloud.translateOnAxis(new THREE.Vector3(1, 0, 0), 0.003)
+        for (var i = 0; i < this.cloudNum; i++) {
+          this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
+        }
+      }
+      const timer = Date.now() * 0.01
+      this.mesh.position.set(Math.cos(timer * 0.1) * 1.5, 1, Math.sin(timer * 0.1) * 1.5)
+      this.mesh.rotation.x = timer * 0.5
+      this.mesh.rotation.y = timer * 0.5
       this.renderer.render(this.scene, this.camera)
     },
 
-    importModel: function () {
-      const fBXLoader = new FBXLoader()
-      fBXLoader.load(
-        '/static/Poly_cloud_2_High.fbx',
-        (fbx) => {
-          fbx.position.set(0, 2.8, 0)
-          fbx.rotation.set(0, Math.PI, 0)
-          fbx.scale.set(0.005, 0.005, 0.005)
-          fbx.rotation.y = 30
-          fbx.traverse(function (child) {
+    importCloud: function () {
+      // 随机生成6-10个云朵
+      for (var count = 0; count <= Math.floor(Math.random() * 4) + 6; count++) {
+        var model = new FBXLoader()
+        model.load(
+          '/static/Poly_cloud_2_High.fbx',
+          (fbx) => {
+            fbx.position.set(Math.floor(Math.random() * 10) - 5, 2.8, Math.floor(Math.random() * 10) - 5)
+            fbx.rotation.set(0, 0, 0)
+            fbx.scale.set(0.002, 0.002, 0.002)
+            fbx.rotation.y = 30
+            fbx.name = 'cloud' + this.cloudNum
+            fbx.traverse(function (child) {
+              if (child instanceof THREE.Mesh) {
+                child.material.color.setRGB(1, 1, 2)
+              }
+            })
+            this.scene.add(fbx)
+            this.cloudNum++
+          },
+          undefined,
+          function (error) {
+            console.log(error)
+          }
+        )
+      }
+    },
+
+    importPegasasu: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Unicorn Pose 2.fbx',
+        (pegasasu) => {
+          pegasasu.position.set(0, 0, 0)
+          pegasasu.rotation.set(0, Math.PI * 0.8, 0)
+          pegasasu.scale.set(0.05, 0.05, 0.05)
+          pegasasu.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
-              child.material.color.setRGB(1, 1, 2)
+              child.material.color.setRGB(1, 0.3, 2)
             }
           })
-          this.cloud = fbx
-          this.scene.add(fbx)
+          this.scene.add(pegasasu)
         },
         undefined,
         function (error) {
           console.log(error)
         }
       )
+    },
+
+    createStarLing: function () {
+      let dodecahedronGeometry = new THREE.IcosahedronGeometry(0.17)
+      let material = new THREE.MeshNormalMaterial()
+      this.mesh = new THREE.Mesh(dodecahedronGeometry, material)
+      this.scene.add(this.mesh)
     },
 
     init: function () {
@@ -144,7 +188,9 @@ export default {
       this.initCamera()
       this.initRenderer()
       this.initOrbitController()
-      this.importModel()
+      this.importCloud()
+      this.importPegasasu()
+      this.createStarLing()
       this.container.appendChild(this.renderer.domElement)
     },
   },
