@@ -20,6 +20,8 @@ export default {
       front: null,
       groundMirror: null,
       cloudNum: 0,
+      mesh: null,
+      radian: 0,
     }
   },
   mounted() {
@@ -36,7 +38,7 @@ export default {
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
-      const grid = new THREE.GridHelper(50, 50, 0x888888, 0x888888)
+      const grid = new THREE.GridHelper(700, 1000, 0x888888, 0x888888)
       // 表示辅助网格的透明度，最大是1表示完全不透明
       grid.material.opacity = 0.5
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
@@ -45,7 +47,6 @@ export default {
       // 地面的大小
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
       mesh.rotation.x = -Math.PI / 2
-      mesh.specular
       this.scene.add(mesh)
     },
 
@@ -116,6 +117,8 @@ export default {
           this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
         }
       }
+      const timer = Date.now() * 0.01
+      this.radian = this.mesh.position.set(Math.cos(timer * 0.1) * 1.5, 1, Math.sin(timer * 0.1) * 1.5)
       this.renderer.render(this.scene, this.camera)
     },
 
@@ -157,7 +160,7 @@ export default {
           pegasasu.scale.set(0.05, 0.05, 0.05)
           pegasasu.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
-              child.material.color.setRGB(1, 0.5, 2)
+              child.material.color.setRGB(1, 0.3, 2)
             }
           })
           this.scene.add(pegasasu)
@@ -167,6 +170,13 @@ export default {
           console.log(error)
         }
       )
+    },
+
+    createStarLing: function () {
+      let dodecahedronGeometry = new THREE.IcosahedronGeometry(0.17)
+      let material = new THREE.MeshNormalMaterial()
+      this.mesh = new THREE.Mesh(dodecahedronGeometry, material)
+      this.scene.add(this.mesh)
     },
 
     init: function () {
@@ -179,6 +189,7 @@ export default {
       this.initOrbitController()
       this.importCloud()
       this.importPegasasu()
+      this.createStarLing()
       this.container.appendChild(this.renderer.domElement)
     },
   },
