@@ -21,7 +21,6 @@ export default {
       groundMirror: null,
       cloudNum: 0,
       mesh: null,
-      radian: 0,
     }
   },
   mounted() {
@@ -118,7 +117,9 @@ export default {
         }
       }
       const timer = Date.now() * 0.01
-      this.radian = this.mesh.position.set(Math.cos(timer * 0.1) * 1.5, 1, Math.sin(timer * 0.1) * 1.5)
+      this.mesh.position.set(Math.cos(timer * 0.1) * 1.5, 1, Math.sin(timer * 0.1) * 1.5)
+      this.mesh.rotation.x = timer * 0.5
+      this.mesh.rotation.y = timer * 0.5
       this.renderer.render(this.scene, this.camera)
     },
 
