@@ -159,7 +159,7 @@ export default {
       model.load(
         '/static/Unicorn Pose 2.fbx',
         (pegasasu) => {
-          pegasasu.position.set(0, 0, 0)
+          pegasasu.position.set(-0.4, 0, 0)
           pegasasu.rotation.set(0, Math.PI * 0.6, 0)
           pegasasu.scale.set(0.05, 0.05, 0.05)
           pegasasu.traverse(function (child) {
@@ -168,6 +168,28 @@ export default {
             }
           })
           this.scene.add(pegasasu)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
+    },
+
+    importStart: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Star.fbx',
+        (start) => {
+          start.position.set(0, -0.2, 0)
+          start.rotation.set(0, Math.PI * 0.5, 0)
+          start.scale.set(0.0001, 0.0001, 0.0001)
+          start.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 0.3, 2)
+            }
+          })
+          this.scene.add(start)
         },
         undefined,
         function (error) {
@@ -194,6 +216,7 @@ export default {
       this.importCloud()
       this.importPegasasu()
       this.createStarLing()
+      this.importStart()
       this.container.appendChild(this.renderer.domElement)
     },
   },
