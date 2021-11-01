@@ -62,7 +62,7 @@ export default {
     initCamera: function () {
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
       // 相机位置xyz
-      this.camera.position.set(10, 2, 0)
+      this.camera.position.set(1, 2, 0)
     },
 
     initRenderer: function () {
@@ -94,13 +94,18 @@ export default {
       //   this.scene.background = new THREE.Color('rgb(245,245,245)')
       // }
       // if (this.$store.state.positionChangeFlag) {
-      //   for (var i = 0; i < 20; i++) {
-      //     console.log('vect : ' + vect.z)
-      //     var checkVector = new THREE.Vector3(35, 10, 0)
-      //     console.log('checkVector : ' + checkVector.z)
-      //     this.camera.position.z += vect.dot(checkVector) * 0.01
-      //     console.log('this.camera.position.z : ' + this.camera.position.z)
-      //   }
+
+      console.log('vect : ' + vect.x)
+      var checkVector = new THREE.Vector3(1, 0, 0)
+      console.log('checkVector : ' + -0.44721359549995826)
+
+      if (this.timer < 210) {
+        this.camera.position.x -= vect.dot(checkVector) * 0.06
+      }
+      this.timer++
+      console.log('this.camera.position.z : ' + this.camera.position.z)
+      this.camera.lookAt(new THREE.Vector3(0, 1, 0))
+
       //   this.$store.commit('changePosition')
       // }
       // 把相机的位置实时提交到store
@@ -110,8 +115,6 @@ export default {
       })
 
       if (this.scene.getObjectByName('cloud0') !== undefined) {
-        // var cloud = this.scene.getObjectByName('cloud0')
-        // cloud.translateOnAxis(new THREE.Vector3(1, 0, 0), 0.003)
         for (var i = 0; i < this.cloudNum; i++) {
           this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
         }
@@ -156,8 +159,8 @@ export default {
       model.load(
         '/static/Unicorn Pose 2.fbx',
         (pegasasu) => {
-          pegasasu.position.set(0, 0, 0)
-          pegasasu.rotation.set(0, Math.PI * 0.8, 0)
+          pegasasu.position.set(-0.4, 0, 0)
+          pegasasu.rotation.set(0, Math.PI * 0.6, 0)
           pegasasu.scale.set(0.05, 0.05, 0.05)
           pegasasu.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
@@ -165,6 +168,28 @@ export default {
             }
           })
           this.scene.add(pegasasu)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
+    },
+
+    importStart: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Star.fbx',
+        (start) => {
+          start.position.set(0, -0.2, 0)
+          start.rotation.set(0, Math.PI * 0.5, 0)
+          start.scale.set(0.0001, 0.0001, 0.0001)
+          start.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 0.3, 2)
+            }
+          })
+          this.scene.add(start)
         },
         undefined,
         function (error) {
@@ -191,6 +216,7 @@ export default {
       this.importCloud()
       this.importPegasasu()
       this.createStarLing()
+      this.importStart()
       this.container.appendChild(this.renderer.domElement)
     },
   },
