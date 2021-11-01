@@ -86,9 +86,7 @@ export default {
       requestAnimationFrame(this.animate)
 
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      console.log('vect : ' + vect.x)
       var checkVector = new THREE.Vector3(1, 0, 0)
-      console.log('checkVector : ' + -0.44721359549995826)
 
       if (this.timer < 210) {
         this.camera.position.x -= vect.dot(checkVector) * 0.06
@@ -171,7 +169,8 @@ export default {
         model.load(
           '/static/Star.fbx',
           (start) => {
-            start.position.set(0, y, this.calStarPosition(2.5))
+            const timer = Date.now() * 0.01
+            start.position.set(0, Math.cos(timer * 2), Math.sin(timer * 2))
             start.rotation.set(0, Math.PI * 0.5, 0)
             start.scale.set(0.0001, 0.0001, 0.0001)
             start.traverse(function (child) {
@@ -190,9 +189,8 @@ export default {
       }
     },
 
-    calStarPosition: function (x) {
-      var z = Math.sqrt((x - 1.25) * (x - 1.25) - 1.25 * 1.25)
-      console.log(z)
+    calStarPosition: function (y) {
+      var z = Math.sqrt(y * y - 1.25 * 1.25)
       return z
     },
 
