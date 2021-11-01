@@ -86,15 +86,6 @@ export default {
       requestAnimationFrame(this.animate)
 
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      // if (this.timer == 300) {
-      //   this.scene.background = new THREE.Color(0, 0, 0)
-      // }
-      // if (this.timer == 600) {
-      //   this.timer = 0
-      //   this.scene.background = new THREE.Color('rgb(245,245,245)')
-      // }
-      // if (this.$store.state.positionChangeFlag) {
-
       console.log('vect : ' + vect.x)
       var checkVector = new THREE.Vector3(1, 0, 0)
       console.log('checkVector : ' + -0.44721359549995826)
@@ -103,11 +94,8 @@ export default {
         this.camera.position.x -= vect.dot(checkVector) * 0.06
       }
       this.timer++
-      console.log('this.camera.position.z : ' + this.camera.position.z)
       this.camera.lookAt(new THREE.Vector3(0, 1, 0))
 
-      //   this.$store.commit('changePosition')
-      // }
       // 把相机的位置实时提交到store
       this.timer++
       this.$store.commit('setCameraPosition', {
@@ -177,25 +165,35 @@ export default {
     },
 
     importStart: function () {
-      var model = new FBXLoader()
-      model.load(
-        '/static/Star.fbx',
-        (start) => {
-          start.position.set(0, -0.2, 0)
-          start.rotation.set(0, Math.PI * 0.5, 0)
-          start.scale.set(0.0001, 0.0001, 0.0001)
-          start.traverse(function (child) {
-            if (child instanceof THREE.Mesh) {
-              child.material.color.setRGB(1, 0.3, 2)
-            }
-          })
-          this.scene.add(start)
-        },
-        undefined,
-        function (error) {
-          console.log(error)
-        }
-      )
+      var y = 2.5
+      for (var count = 0; count <= 4; count++) {
+        var model = new FBXLoader()
+        model.load(
+          '/static/Star.fbx',
+          (start) => {
+            start.position.set(0, y, this.calStarPosition(2.5))
+            start.rotation.set(0, Math.PI * 0.5, 0)
+            start.scale.set(0.0001, 0.0001, 0.0001)
+            start.traverse(function (child) {
+              if (child instanceof THREE.Mesh) {
+                child.material.color.setRGB(1, 0.3, 2)
+              }
+            })
+            y = y + 2.5 / 4
+            this.scene.add(start)
+          },
+          undefined,
+          function (error) {
+            console.log(error)
+          }
+        )
+      }
+    },
+
+    calStarPosition: function (x) {
+      var z = Math.sqrt((x - 1.25) * (x - 1.25) - 1.25 * 1.25)
+      console.log(z)
+      return z
     },
 
     createStarLing: function () {
