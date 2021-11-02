@@ -7,6 +7,7 @@
 <script>
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 export default {
   data() {
     return {
@@ -18,6 +19,8 @@ export default {
       container: null,
       front: null,
       groundMirror: null,
+      cloudNum: 0,
+      mesh: null,
     }
   },
   mounted() {
@@ -34,16 +37,15 @@ export default {
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
-      const grid = new THREE.GridHelper(50, 50, 0x888888, 0x888888)
+      const grid = new THREE.GridHelper(700, 1000, 0x888888, 0x888888)
       // 表示辅助网格的透明度，最大是1表示完全不透明
-      // grid.material.opacity = 0.07
+      grid.material.opacity = 0.5
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
       grid.material.transparent = true
       this.scene.add(grid)
       // 地面的大小
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
       mesh.rotation.x = -Math.PI / 2
-      mesh.specular
       this.scene.add(mesh)
     },
 
@@ -60,7 +62,7 @@ export default {
     initCamera: function () {
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
       // 相机位置xyz
-      this.camera.position.set(10, 1, 0)
+      this.camera.position.set(1, 2, 0)
     },
 
     initRenderer: function () {
@@ -92,13 +94,18 @@ export default {
       //   this.scene.background = new THREE.Color('rgb(245,245,245)')
       // }
       // if (this.$store.state.positionChangeFlag) {
-      //   for (var i = 0; i < 20; i++) {
-      //     console.log('vect : ' + vect.z)
-      //     var checkVector = new THREE.Vector3(35, 10, 0)
-      //     console.log('checkVector : ' + checkVector.z)
-      //     this.camera.position.z += vect.dot(checkVector) * 0.01
-      //     console.log('this.camera.position.z : ' + this.camera.position.z)
-      //   }
+
+      console.log('vect : ' + vect.x)
+      var checkVector = new THREE.Vector3(1, 0, 0)
+      console.log('checkVector : ' + -0.44721359549995826)
+
+      if (this.timer < 210) {
+        this.camera.position.x -= vect.dot(checkVector) * 0.06
+      }
+      this.timer++
+      console.log('this.camera.position.z : ' + this.camera.position.z)
+      this.camera.lookAt(new THREE.Vector3(0, 1, 0))
+
       //   this.$store.commit('changePosition')
       // }
       // 把相机的位置实时提交到store
@@ -106,7 +113,96 @@ export default {
       this.$store.commit('setCameraPosition', {
         cameraPositition: vect,
       })
+
+      if (this.scene.getObjectByName('cloud0') !== undefined) {
+        for (var i = 0; i < this.cloudNum; i++) {
+          this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
+        }
+      }
+      const timer = Date.now() * 0.01
+      this.mesh.position.set(Math.cos(timer * 0.1) * 1.5, 1, Math.sin(timer * 0.1) * 1.5)
+      this.mesh.rotation.x = timer * 0.5
+      this.mesh.rotation.y = timer * 0.5
       this.renderer.render(this.scene, this.camera)
+    },
+
+    importCloud: function () {
+      // 随机生成6-10个云朵
+      for (var count = 0; count <= Math.floor(Math.random() * 4) + 6; count++) {
+        var model = new FBXLoader()
+        model.load(
+          '/static/Poly_cloud_2_High.fbx',
+          (fbx) => {
+            fbx.position.set(Math.floor(Math.random() * 10) - 5, 2.8, Math.floor(Math.random() * 10) - 5)
+            fbx.rotation.set(0, 0, 0)
+            fbx.scale.set(0.002, 0.002, 0.002)
+            fbx.rotation.y = 30
+            fbx.name = 'cloud' + this.cloudNum
+            fbx.traverse(function (child) {
+              if (child instanceof THREE.Mesh) {
+                child.material.color.setRGB(1, 1, 2)
+              }
+            })
+            this.scene.add(fbx)
+            this.cloudNum++
+          },
+          undefined,
+          function (error) {
+            console.log(error)
+          }
+        )
+      }
+    },
+
+    importPegasasu: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Unicorn Pose 2.fbx',
+        (pegasasu) => {
+          pegasasu.position.set(-0.4, 0, 0)
+          pegasasu.rotation.set(0, Math.PI * 0.6, 0)
+          pegasasu.scale.set(0.05, 0.05, 0.05)
+          pegasasu.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 0.3, 2)
+            }
+          })
+          this.scene.add(pegasasu)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
+    },
+
+    importStart: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Star.fbx',
+        (start) => {
+          start.position.set(0, -0.2, 0)
+          start.rotation.set(0, Math.PI * 0.5, 0)
+          start.scale.set(0.0001, 0.0001, 0.0001)
+          start.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 0.3, 2)
+            }
+          })
+          this.scene.add(start)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
+    },
+
+    createStarLing: function () {
+      let dodecahedronGeometry = new THREE.IcosahedronGeometry(0.17)
+      let material = new THREE.MeshNormalMaterial()
+      this.mesh = new THREE.Mesh(dodecahedronGeometry, material)
+      this.scene.add(this.mesh)
     },
 
     init: function () {
@@ -117,6 +213,10 @@ export default {
       this.initCamera()
       this.initRenderer()
       this.initOrbitController()
+      this.importCloud()
+      this.importPegasasu()
+      this.createStarLing()
+      this.importStart()
       this.container.appendChild(this.renderer.domElement)
     },
   },
