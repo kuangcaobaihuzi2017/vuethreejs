@@ -33,7 +33,6 @@ export default {
       this.scene.background = new THREE.Color(0xffffff)
       this.scene.fog = new THREE.Fog(0xffffff, 2, 30)
     },
-
     // 网格辅助线
     initGird: function () {
       // 第一个参数表示网格整个大小，第二个表示网格密度
@@ -48,23 +47,19 @@ export default {
       mesh.rotation.x = -Math.PI / 2
       this.scene.add(mesh)
     },
-
     intiHemiLight: function () {
       const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444)
       hemiLight.position.set(0, 20, 0)
       this.scene.add(hemiLight)
-
       const dirLight = new THREE.DirectionalLight(0xffffff)
       dirLight.position.set(0, 20, 10)
       this.scene.add(dirLight)
     },
-
     initCamera: function () {
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
       // 相机位置xyz
       this.camera.position.set(1, 2, 0)
     },
-
     initRenderer: function () {
       this.renderer = new THREE.WebGLRenderer({ antialias: true })
       this.renderer.setPixelRatio(window.devicePixelRatio)
@@ -77,43 +72,23 @@ export default {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
       })
     },
-
     initOrbitController: function () {
       this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement)
     },
-
     animate: function () {
       requestAnimationFrame(this.animate)
-
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      // if (this.timer == 300) {
-      //   this.scene.background = new THREE.Color(0, 0, 0)
-      // }
-      // if (this.timer == 600) {
-      //   this.timer = 0
-      //   this.scene.background = new THREE.Color('rgb(245,245,245)')
-      // }
-      // if (this.$store.state.positionChangeFlag) {
-
-      console.log('vect : ' + vect.x)
       var checkVector = new THREE.Vector3(1, 0, 0)
-      console.log('checkVector : ' + -0.44721359549995826)
-
       if (this.timer < 210) {
         this.camera.position.x -= vect.dot(checkVector) * 0.06
       }
       this.timer++
-      console.log('this.camera.position.z : ' + this.camera.position.z)
       this.camera.lookAt(new THREE.Vector3(0, 1, 0))
-
-      //   this.$store.commit('changePosition')
-      // }
       // 把相机的位置实时提交到store
       this.timer++
       this.$store.commit('setCameraPosition', {
         cameraPositition: vect,
       })
-
       if (this.scene.getObjectByName('cloud0') !== undefined) {
         for (var i = 0; i < this.cloudNum; i++) {
           this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
@@ -125,7 +100,6 @@ export default {
       this.mesh.rotation.y = timer * 0.5
       this.renderer.render(this.scene, this.camera)
     },
-
     importCloud: function () {
       // 随机生成6-10个云朵
       for (var count = 0; count <= Math.floor(Math.random() * 4) + 6; count++) {
@@ -153,7 +127,6 @@ export default {
         )
       }
     },
-
     importPegasasu: function () {
       var model = new FBXLoader()
       model.load(
@@ -175,21 +148,23 @@ export default {
         }
       )
     },
-
     importStart: function () {
       var model = new FBXLoader()
       model.load(
         '/static/Star.fbx',
         (start) => {
-          start.position.set(0, -0.2, 0)
-          start.rotation.set(0, Math.PI * 0.5, 0)
-          start.scale.set(0.0001, 0.0001, 0.0001)
-          start.traverse(function (child) {
-            if (child instanceof THREE.Mesh) {
-              child.material.color.setRGB(1, 0.3, 2)
-            }
-          })
-          this.scene.add(start)
+          const starInstance = start.children[0]
+          for (var i = 0; i < 10; i++) {
+            var newStar = starInstance.clone()
+            newStar.position.set(0, Math.sin(30), 0)
+            newStar.rotation.set(0, Math.PI * 0.5, 0)
+            newStar.traverse(function (child) {
+              if (child instanceof THREE.Mesh) {
+                child.material.color.setRGB(1, 0.3, 2)
+              }
+            })
+            this.scene.add(newStar)
+          }
         },
         undefined,
         function (error) {
@@ -197,14 +172,12 @@ export default {
         }
       )
     },
-
     createStarLing: function () {
       let dodecahedronGeometry = new THREE.IcosahedronGeometry(0.17)
       let material = new THREE.MeshNormalMaterial()
       this.mesh = new THREE.Mesh(dodecahedronGeometry, material)
       this.scene.add(this.mesh)
     },
-
     init: function () {
       this.container = document.getElementById('container')
       this.initScene()
