@@ -149,33 +149,28 @@ export default {
       )
     },
     importStart: function () {
-      var y = 2.5
-      for (var count = 0; count <= 4; count++) {
-        var model = new FBXLoader()
-        model.load(
-          '/static/Star.fbx',
-          (start) => {
-            start.position.set(0, 2.5, 0)
-            start.rotation.set(0, Math.PI * 0.5, 0)
-            start.scale.set(1, 1, 1)
-            start.traverse(function (child) {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Star.fbx',
+        (start) => {
+          const starInstance = start.children[0]
+          for (var i = 0; i < 10; i++) {
+            var newStar = starInstance.clone()
+            newStar.position.set(0, Math.sin(30), 0)
+            newStar.rotation.set(0, Math.PI * 0.5, 0)
+            newStar.traverse(function (child) {
               if (child instanceof THREE.Mesh) {
                 child.material.color.setRGB(1, 0.3, 2)
               }
             })
-            y = y + 2.5 / 4
-            this.scene.add(start)
-          },
-          undefined,
-          function (error) {
-            console.log(error)
+            this.scene.add(newStar)
           }
-        )
-      }
-    },
-    calStarPosition: function (y) {
-      var z = Math.sqrt(y * y - 1.25 * 1.25)
-      return z
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
     },
     createStarLing: function () {
       let dodecahedronGeometry = new THREE.IcosahedronGeometry(0.17)
