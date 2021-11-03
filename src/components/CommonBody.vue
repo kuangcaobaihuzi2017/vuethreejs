@@ -150,13 +150,14 @@ export default {
     },
     importStart: function () {
       var model = new FBXLoader()
+      var range = 45 / 10
       model.load(
         '/static/Star.fbx',
         (start) => {
           const starInstance = start.children[0]
-          for (var i = 0; i < 10; i++) {
+          for (var i = 0; i < 100; i++) {
             var newStar = starInstance.clone()
-            newStar.position.set(0, Math.sin(30), 0)
+            newStar.position.set(0, 2.5 * Math.cos((range * i * 3.14) / 180), 2.5 * Math.sin((range * i * 3.14) / 180))
             newStar.rotation.set(0, Math.PI * 0.5, 0)
             newStar.traverse(function (child) {
               if (child instanceof THREE.Mesh) {
