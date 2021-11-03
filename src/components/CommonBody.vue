@@ -154,7 +154,7 @@ export default {
         '/static/Star.fbx',
         (start) => {
           const starInstance = start.children[0]
-          for (var i = 0; i < 10; i++) {
+          for (var i = 0; i < 20; i++) {
             var newStar = starInstance.clone()
             newStar.position.set(0, Math.sin(30), 0)
             newStar.rotation.set(0, Math.PI * 0.5, 0)
