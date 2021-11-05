@@ -163,19 +163,14 @@ export default {
                 child.material.color.setRGB(1, 0.3, 2)
               }
             })
-            y = y + 2.5 / 4
-            this.scene.add(start)
-          },
-          undefined,
-          function (error) {
-            console.log(error)
+            this.scene.add(newStar)
           }
-        )
-      }
-    },
-    calStarPosition: function (y) {
-      var z = Math.sqrt(y * y - 1.25 * 1.25)
-      return z
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
     },
     createStarLing: function () {
       let dodecahedronGeometry = new THREE.IcosahedronGeometry(0.17)
