@@ -28,5 +28,5 @@ npm run serve
 
 # 代码格式化
 ```
-npm run lint -- --fixSol
+npm run lint -- --fix
 ```
