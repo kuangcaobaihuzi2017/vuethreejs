@@ -241,7 +241,6 @@ export default {
       this.importPegasasu()
       this.importStart()
       this.importFrot()
-      // this.createBackgroundWall()
       this.container.appendChild(this.renderer.domElement)
     },
     animate: function () {
@@ -252,6 +251,8 @@ export default {
       if (this.timer < 550) {
         this.camera.position.x -= vect.dot(checkVector) * 0.04
       }
+      // 获取x方向世界坐标
+      // console.log('x,y,z : ' + vect.getComponent(0))
       this.timer++
       this.camera.lookAt(new THREE.Vector3(0, 1, 0))
       // 把相机的位置实时提交到store
@@ -259,6 +260,12 @@ export default {
       this.$store.commit('setCameraPosition', {
         cameraPositition: vect,
       })
+
+      if (this.$store.state.changePositionFlag) {
+        this.camera.position.z += vect.dot(checkVector) * 0.04
+        this.camera.lookAt(new THREE.Vector3(0, 1, this.camera.position.z))
+      }
+
       if (this.scene.getObjectByName('cloud0') !== undefined) {
         for (var i = 0; i < this.cloudNum; i++) {
           this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)

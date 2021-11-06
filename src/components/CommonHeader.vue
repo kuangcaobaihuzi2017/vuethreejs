@@ -3,25 +3,20 @@
     <v-app-bar-nav-icon></v-app-bar-nav-icon>
     <v-toolbar-title>Sample</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn text @click="moveToProducts"> ホームページ </v-btn>
-    <v-btn text @click="moveToProducts"> 会社製品 </v-btn>
-    <v-btn text> ソリューション </v-btn>
-    <v-btn text> 資源 </v-btn>
-    <v-btn text> 研究方向 </v-btn>
-    <v-btn text> 会社情報 </v-btn>
-    <v-btn text> 求人情報 </v-btn>
-    <v-btn text> アクセス </v-btn>
-    <v-btn class="mx-2" fab dark small color="pink">
-      <v-icon>mdi-magnify</v-icon>
-    </v-btn>
+    <v-btn text @click="moveToProducts"> <v-icon>mdi-shield-home</v-icon>ホームページ </v-btn>
+    <v-btn text @click="moveToServiceList"> <v-icon>mdi-store-check</v-icon>サービス一覧 </v-btn>
+    <v-btn text> <v-icon>mdi-magnify-expand</v-icon>研究方向 </v-btn>
+    <v-btn text> <v-icon>mdi-arrow-collapse-all</v-icon>会社情報 </v-btn>
+    <v-btn text> <v-icon>mdi-account-search</v-icon>求人情報 </v-btn>
+    <v-btn text> <v-icon>mdi-map-marker-outline</v-icon>アクセス </v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
   methods: {
-    moveToProducts() {
-      this.$store.commit('changePosition')
+    moveToServiceList() {
+      this.$store.commit('moveToServiceList')
     },
   },
 }

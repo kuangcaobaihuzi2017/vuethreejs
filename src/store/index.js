@@ -5,16 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    positionChangeFlag: false,
-    matrixPosition: '',
+    changePositionFlag: false,
+    cameraPositition: '',
     cloudGroup: [],
   },
   mutations: {
     setCameraPosition(state, positionDto) {
-      state.matrixPosition = positionDto.cameraPositition
+      state.cameraPositition = positionDto.cameraPositition
     },
     changePosition(state) {
-      state.positionChangeFlag = !state.positionChangeFlag
+      state.changePositionFlag = !state.changePositionFlag
+    },
+    moveToServiceList(state) {
+      state.changePositionFlag = !state.changePositionFlag
     },
   },
   actions: {},
