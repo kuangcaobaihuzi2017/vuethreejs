@@ -38,7 +38,7 @@ export default {
       // 第一个参数表示网格整个大小，第二个表示网格密度
       const grid = new THREE.GridHelper(700, 1000, 0x888888, 0x888888)
       // 表示辅助网格的透明度，最大是1表示完全不透明
-      grid.material.opacity = 0.5
+      grid.material.opacity = 0.3
       // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
       grid.material.transparent = true
       this.scene.add(grid)
@@ -74,32 +74,12 @@ export default {
     },
     initOrbitController: function () {
       this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement)
+      this.orbitControls.enablePan = false
+      this.orbitControls.enableZoom = false
+      this.orbitControls.minPolarAngle = Math.PI / 4
+      this.orbitControls.maxPolarAngle = Math.PI / 2
     },
-    animate: function () {
-      requestAnimationFrame(this.animate)
-      let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      var checkVector = new THREE.Vector3(1, 0, 0)
-      if (this.timer < 210) {
-        this.camera.position.x -= vect.dot(checkVector) * 0.06
-      }
-      this.timer++
-      this.camera.lookAt(new THREE.Vector3(0, 1, 0))
-      // 把相机的位置实时提交到store
-      this.timer++
-      this.$store.commit('setCameraPosition', {
-        cameraPositition: vect,
-      })
-      if (this.scene.getObjectByName('cloud0') !== undefined) {
-        for (var i = 0; i < this.cloudNum; i++) {
-          this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
-        }
-      }
-      const timer = Date.now() * 0.01
-      this.mesh.position.set(Math.cos(timer * 0.1) * 1.5, 1, Math.sin(timer * 0.1) * 1.5)
-      this.mesh.rotation.x = timer * 0.5
-      this.mesh.rotation.y = timer * 0.5
-      this.renderer.render(this.scene, this.camera)
-    },
+
     importCloud: function () {
       // 随机生成6-10个云朵
       for (var count = 0; count <= Math.floor(Math.random() * 4) + 6; count++) {
@@ -160,7 +140,7 @@ export default {
             start.scale.set(1, 1, 1)
             start.traverse(function (child) {
               if (child instanceof THREE.Mesh) {
-                child.material.color.setRGB(1, 0.3, 2)
+                child.material.color.setRGB(1, 0.3, 0)
               }
             })
             this.scene.add(newStar)
@@ -172,12 +152,6 @@ export default {
         }
       )
     },
-    createStarLing: function () {
-      let dodecahedronGeometry = new THREE.IcosahedronGeometry(0.17)
-      let material = new THREE.MeshNormalMaterial()
-      this.mesh = new THREE.Mesh(dodecahedronGeometry, material)
-      this.scene.add(this.mesh)
-    },
     init: function () {
       this.container = document.getElementById('container')
       this.initScene()
@@ -188,9 +162,30 @@ export default {
       this.initOrbitController()
       this.importCloud()
       this.importPegasasu()
-      this.createStarLing()
       this.importStart()
       this.container.appendChild(this.renderer.domElement)
+    },
+    animate: function () {
+      requestAnimationFrame(this.animate)
+      // 获取相机的世界坐标
+      let vect = this.camera.getWorldDirection(new THREE.Vector3())
+      var checkVector = new THREE.Vector3(1, 0, 0)
+      if (this.timer < 210) {
+        this.camera.position.x -= vect.dot(checkVector) * 0.08
+      }
+      this.timer++
+      this.camera.lookAt(new THREE.Vector3(0, 1, 0))
+      // 把相机的位置实时提交到store
+      this.timer++
+      this.$store.commit('setCameraPosition', {
+        cameraPositition: vect,
+      })
+      if (this.scene.getObjectByName('cloud0') !== undefined) {
+        for (var i = 0; i < this.cloudNum; i++) {
+          this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
+        }
+      }
+      this.renderer.render(this.scene, this.camera)
     },
   },
 }
