@@ -88,7 +88,7 @@ export default {
         model.load(
           '/static/Poly_cloud_2_Low.fbx',
           (fbx) => {
-            fbx.position.set(Math.floor(Math.random() * 10) - 5, 2.8, Math.floor(Math.random() * 10) - 5)
+            fbx.position.set(Math.floor(Math.random() * 10) - 7, 3.4, Math.floor(Math.random() * 10) - 5)
             fbx.rotation.set(0, 0, 0)
             fbx.scale.set(0.002, 0.002, 0.002)
             fbx.rotation.y = 30
@@ -241,29 +241,58 @@ export default {
       this.importPegasasu()
       this.importStart()
       this.importFrot()
-      // this.createBackgroundWall()
       this.container.appendChild(this.renderer.domElement)
+    },
+    // 根据当前相机位置以及页面位置，计算相机移动方式
+    calCameraPosition: function (vect) {
+      var checkVector = new THREE.Vector3(1, 0, 0)
+      this.camera.position.x -= vect.dot(checkVector) * 0.04
+      this.camera.position.y -= vect.dot(checkVector) * 0.004
+      // 将当前相机的位置提交到store
+      this.$store.commit('setCamerPosition', {
+        cameraPositition: this.camera.position,
+        timer: this.timer,
+      })
+    },
+    // 页面首次渲染时，检测相机是否移动到相应位置
+    checkInitCameraPosition: function () {
+      // 如果相机在x上的位置超过了8
+      if (this.$store.state.positionDto.cameraPositition.x >= 8) {
+        // 则把相机的位置判定为已经移动到指定位置(首次渲染已完成)
+        this.$store.commit('updatePageFlag')
+        this.$store.commit('updateinitPageFlag')
+      }
     },
     animate: function () {
       requestAnimationFrame(this.animate)
       // 获取相机的世界坐标
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      var checkVector = new THREE.Vector3(1, 0, 0)
-      if (this.timer < 550) {
-        this.camera.position.x -= vect.dot(checkVector) * 0.04
+      // 判定是否需要更新页面
+      if (this.$store.state.updatePageFlag) {
+        // 查看是否是首次渲染页面
+        if (this.$store.state.initPageFlag) {
+          // 如果是首次渲染，则让相机逐渐移动x方向的位置
+          this.calCameraPosition(vect)
+          // 如果是首次渲染，并且已经移动到对应位置，则initPageFlag设置为false
+          this.checkInitCameraPosition()
+        }
       }
+
+      // 根据现在所处页面计算相机焦点
+      this.$store.commit('calLookAtPosition')
+      this.camera.lookAt(this.$store.state.lookAtPosition)
+
       this.timer++
-      this.camera.lookAt(new THREE.Vector3(0, 1, 0))
-      // 把相机的位置实时提交到store
-      this.timer++
-      this.$store.commit('setCameraPosition', {
-        cameraPositition: vect,
-      })
       if (this.scene.getObjectByName('cloud0') !== undefined) {
         for (var i = 0; i < this.cloudNum; i++) {
           this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
         }
       }
+      // 把相机的位置实时提交到store
+      this.$store.commit('setCamerPosition', {
+        cameraPositition: vect,
+        timer: this.timer,
+      })
       this.renderer.render(this.scene, this.camera)
     },
   },
