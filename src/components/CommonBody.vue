@@ -248,8 +248,6 @@ export default {
       var checkVector = new THREE.Vector3(1, 0, 0)
       this.camera.position.x -= vect.dot(checkVector) * 0.04
       this.camera.position.y -= vect.dot(checkVector) * 0.004
-      this.camera.position.z -= vect.dot(checkVector) * 1
-
       // 将当前相机的位置提交到store
       this.$store.commit('setCamerPosition', {
         cameraPositition: this.camera.position,
@@ -282,15 +280,6 @@ export default {
 
       // 根据现在所处页面计算相机焦点
       this.$store.commit('calLookAtPosition')
-      if (this.$store.state.updatePageFlag) {
-        // 查看是否是首次渲染页面
-        if (this.$store.state.initPageFlag) {
-          // 如果是首次渲染，则让相机逐渐移动x方向的位置
-          this.calCameraPosition(vect)
-          // 如果是首次渲染，并且已经移动到对应位置，则initPageFlag设置为false
-          this.checkInitCameraPosition()
-        }
-      }
       this.camera.lookAt(this.$store.state.lookAtPosition)
 
       this.timer++
