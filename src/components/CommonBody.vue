@@ -270,11 +270,6 @@ export default {
         timer: this.timer,
       })
 
-      if (this.$store.state.changePositionFlag) {
-        this.camera.position.z += vect.dot(checkVector) * 0.005
-        this.camera.lookAt(new THREE.Vector3(0, 1, this.camera.position.z))
-      }
-
       if (this.scene.getObjectByName('cloud0') !== undefined) {
         for (var i = 0; i < this.cloudNum; i++) {
           this.scene.getObjectByName('cloud' + i).translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
