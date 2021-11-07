@@ -248,21 +248,30 @@ export default {
       // 获取相机的世界坐标
       let vect = this.camera.getWorldDirection(new THREE.Vector3())
       var checkVector = new THREE.Vector3(1, 0, 0)
-      if (this.timer < 550) {
+      // 首页面时相机位置
+      if (this.$store.state.cameraPositition.timer < 250) {
         this.camera.position.x -= vect.dot(checkVector) * 0.04
+        console.log(vect.dot(checkVector) * 0.04)
+        // 把相机的位置实时提交到store
+        this.$store.commit('setCamerPosition', {
+          cameraPositition: vect,
+          timer: this.timer,
+        })
       }
       // 获取x方向世界坐标
       // console.log('x,y,z : ' + vect.getComponent(0))
       this.timer++
-      this.camera.lookAt(new THREE.Vector3(0, 1, 0))
+      if (this.$store.state.isTopPageFlag) {
+        this.camera.lookAt(new THREE.Vector3(0, 1, 0))
+      }
       // 把相机的位置实时提交到store
-      this.timer++
-      this.$store.commit('setCameraPosition', {
+      this.$store.commit('setCamerPosition', {
         cameraPositition: vect,
+        timer: this.timer,
       })
 
       if (this.$store.state.changePositionFlag) {
-        this.camera.position.z += vect.dot(checkVector) * 0.04
+        this.camera.position.z += vect.dot(checkVector) * 0.005
         this.camera.lookAt(new THREE.Vector3(0, 1, this.camera.position.z))
       }
 
