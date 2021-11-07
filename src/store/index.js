@@ -1,59 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as THREE from 'three'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    positionDto: null,
-    // 初次渲染页面判定
-    initPageFlag: true,
-    // 是否渲染页面判定
-    updatePageFlag: true,
-    // lookup位置
-    lookAtPosition: new THREE.Vector3(0, 1, 0),
-    pageInfo: [
-      { pageName: 'topage', flag: true },
-      { pageName: 'serviceList', flag: false },
-      { pageName: 'research', flag: false },
-      { pageName: 'company', flag: false },
-      { pageName: 'job', flag: false },
-      { pageName: 'map', flag: false },
+    camera: null,
+    pageInfoList: [
+      // 默认首页面
+      { pageName: 'topage', flag: true, position: [9, 3, 0], step: 0 },
+      { pageName: 'serviceList', flag: false, position: [9, 3, 30], step: 0 },
+      { pageName: 'research', flag: false, position: [9, 3, 60], step: 0 },
+      { pageName: 'company', flag: false, position: [9, 3, 90], step: 0 },
+      { pageName: 'job', flag: false, position: [9, 3, 120], step: 0 },
+      { pageName: 'map', flag: false, position: [9, 3, 150], step: 0 },
     ],
+    pageInfo: { pageName: 'topage', flag: true, position: [9, 3, 0], step: 0 },
   },
   mutations: {
-    setCamerPosition(state, positionDto) {
-      state.positionDto = positionDto
-    },
-    updatePageFlag(state) {
-      state.updatePageFlag = !state.updatePageFlag
-    },
-    updateinitPageFlag(state) {
-      state.initPageFlag = !state.initPageFlag
+    setCamera(state, cameraDto) {
+      state.camera = cameraDto
     },
     moveToServiceList(state) {
-      var pageTarget = ''
-      // 将其他页面的聚焦设定为false
-      for (var i = 0; i < state.pageInfo.length; i++) {
-        // 获取当前页面所在位置
-        if (state.pageInfo[i].flag) {
-          pageTarget = state.pageInfo[i].pageName
-        }
-        // 将其他页面的聚焦设定为false
-        state.pageInfo[i].flag = false
-        console.log('pageTarget : ' + pageTarget)
-      }
-      // 将页面聚焦设定到服务一览
-      state.pageInfo[1].flag = true
-      // state.positionDto
-    },
-    calLookAtPosition(state) {
-      if (state.pageInfo[0].flag) {
-        state.lookAtPosition = new THREE.Vector3(0, 1, 0)
-      } else if (state.pageInfo[1].flag) {
-        state.lookAtPosition = new THREE.Vector3(0, 1, 0)
-      }
+      // 计算当前页面与目标距离的步长
+      var step = (state.pageInfoList[1].position[2] - state.pageInfo.position[2]) / 0.04
+      state.pageInfoList[1].step = step
+      state.pageInfo = state.pageInfoList[1]
+      console.log('step : ' + state.pageInfo.step)
     },
   },
   actions: {},
