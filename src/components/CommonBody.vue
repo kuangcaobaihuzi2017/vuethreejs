@@ -44,7 +44,7 @@ export default {
       grid.material.transparent = true
       this.scene.add(grid)
       // 地面的大小
-      const mesh = new THREE.Mesh(new THREE.BoxGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
       mesh.rotation.x = -Math.PI / 2
       this.scene.add(mesh)
     },
@@ -78,7 +78,7 @@ export default {
       this.orbitControls.enablePan = false
       this.orbitControls.enableZoom = false
       this.orbitControls.minPolarAngle = Math.PI / 4
-      this.orbitControls.maxPolarAngle = Math.PI / 1
+      this.orbitControls.maxPolarAngle = Math.PI / 2
     },
 
     importCloud: function () {
@@ -88,7 +88,7 @@ export default {
         model.load(
           '/static/Poly_cloud_2_Low.fbx',
           (fbx) => {
-            fbx.position.set(Math.floor(Math.random() * 10) - 5, 2.8, Math.floor(Math.random() * 10) - 5)
+            fbx.position.set(Math.floor(Math.random() * 10) - 7, 3.4, Math.floor(Math.random() * 10) - 5)
             fbx.rotation.set(0, 0, 0)
             fbx.scale.set(0.002, 0.002, 0.002)
             fbx.rotation.y = 30
@@ -247,16 +247,14 @@ export default {
     calCameraPosition: function (vect) {
       var checkVector = new THREE.Vector3(1, 0, 0)
       this.camera.position.x -= vect.dot(checkVector) * 0.04
-      console.log('this.camera.position.x  : ' + this.camera.position.x)
-      console.log('this.camera.position.y  : ' + this.camera.position.y)
-      console.log('this.camera.position.z  : ' + this.camera.position.z)
+      this.camera.position.y -= vect.dot(checkVector) * 0.004
       // 将当前相机的位置提交到store
       this.$store.commit('setCamerPosition', {
         cameraPositition: this.camera.position,
         timer: this.timer,
       })
     },
-    // 页面首次渲染时，检测相机是否移动到响应位置
+    // 页面首次渲染时，检测相机是否移动到相应位置
     checkInitCameraPosition: function () {
       // 如果相机在x上的位置超过了8
       if (this.$store.state.positionDto.cameraPositition.x >= 8) {
@@ -273,8 +271,6 @@ export default {
       if (this.$store.state.updatePageFlag) {
         // 查看是否是首次渲染页面
         if (this.$store.state.initPageFlag) {
-          // 如果是首次渲染，则让相机焦点始终在(0,1,0)上
-          this.camera.lookAt(new THREE.Vector3(0, 1, 0))
           // 如果是首次渲染，则让相机逐渐移动x方向的位置
           this.calCameraPosition(vect)
           // 如果是首次渲染，并且已经移动到对应位置，则initPageFlag设置为false
@@ -282,8 +278,10 @@ export default {
         }
       }
 
-      // 获取x方向世界坐标
-      // console.log('x,y,z : ' + vect.getComponent(0))
+      // 根据现在所处页面计算相机焦点
+      this.$store.commit('calLookAtPosition')
+      this.camera.lookAt(this.$store.state.lookAtPosition)
+
       this.timer++
       if (this.scene.getObjectByName('cloud0') !== undefined) {
         for (var i = 0; i < this.cloudNum; i++) {
