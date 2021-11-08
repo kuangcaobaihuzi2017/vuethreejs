@@ -238,14 +238,13 @@ export default {
     calPositionAndLookAt: function () {
       // 获取当前页面最终相机位置
       if (this.camera.position.x <= this.$store.state.pageInfo.position[0]) {
-        this.camera.position.x += 0.04
+        this.camera.position.x += 0.5
       }
       if (this.camera.position.y <= this.$store.state.pageInfo.position[1]) {
-        this.camera.position.y += 0.04
+        this.camera.position.y += 0.5
       }
       if (Math.abs(this.camera.position.z) <= this.$store.state.pageInfo.position[2]) {
-        this.camera.position.z -= 0.04
-        console.log('this.lookAtZ : ' + this.lookAtZ)
+        this.camera.position.z -= 0.5
       }
       if (this.$store.state.pageInfo.pageName != 'topage') {
         this.camera.lookAt(0, 1, this.camera.position.z)
