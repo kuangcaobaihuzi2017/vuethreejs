@@ -29,4 +29,7 @@ npm run serve
 # 代码格式化
 ```
 npm run lint -- --fix
+      console.log('x : ' + this.camera.position.x)
+      console.log('y : ' + this.camera.position.y)
+      console.log('z : ' + this.camera.position.z)
 ```
