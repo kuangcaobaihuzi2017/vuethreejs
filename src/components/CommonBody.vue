@@ -245,6 +245,7 @@ export default {
       }
       if (Math.abs(this.camera.position.z) <= this.$store.state.pageInfo.position[2]) {
         this.camera.position.z -= 0.5
+        console.log('this.camera.position.z : ' + this.camera.position.z)
       }
       if (this.$store.state.pageInfo.pageName != 'topage') {
         this.camera.lookAt(0, 1, this.camera.position.z)
