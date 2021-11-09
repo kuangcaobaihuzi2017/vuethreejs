@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     camera: null,
+    inPositionFlag: false,
     pageInfoList: [
       // 默认首页面
       { pageName: 'topage', flag: true, position: [9, 3, 0], step: 0 },
@@ -36,6 +37,9 @@ export default new Vuex.Store({
       state.pageInfo = state.pageInfoList[0]
       state.pageInfo.direction = 'left'
       console.log('state.pageInfo : ' + state.pageInfo.position[0])
+    },
+    changeInPositionFlag(state, parmas) {
+      state.inPositionFlag = parmas
     },
   },
   actions: {},

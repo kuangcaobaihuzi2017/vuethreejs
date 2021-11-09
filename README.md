@@ -24,12 +24,10 @@ npm run serve
 ```
 ※实现了背景的岁时间更改而更改
 ※让整个画面看起来整洁了一点
+※当页面移动到指定位置后，不在自动移动各轴坐标
 ```
 
 # 代码格式化
 ```
 npm run lint -- --fix
-      console.log('x : ' + this.camera.position.x)
-      console.log('y : ' + this.camera.position.y)
-      console.log('z : ' + this.camera.position.z)
 ```
