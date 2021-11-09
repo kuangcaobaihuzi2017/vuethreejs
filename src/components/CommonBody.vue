@@ -243,9 +243,18 @@ export default {
       if (this.camera.position.y <= this.$store.state.pageInfo.position[1]) {
         this.camera.position.y += 0.5
       }
-      if (Math.abs(this.camera.position.z) <= this.$store.state.pageInfo.position[2]) {
-        this.camera.position.z -= 0.5
-        console.log('this.camera.position.z : ' + this.camera.position.z)
+      // 从左往右移动时
+      if (this.$store.state.pageInfo.direction == 'right') {
+        if (Math.abs(this.camera.position.z) <= this.$store.state.pageInfo.position[2]) {
+          this.camera.position.z -= 0.5
+          console.log('this.camera.position.z : ' + this.camera.position.z)
+        }
+        // 从右往左移动时
+      } else if (this.$store.state.pageInfo.direction == 'left') {
+        if (this.camera.position.z <= Math.abs(this.$store.state.pageInfo.position[2])) {
+          this.camera.position.z += 0.5
+          console.log('this.camera.position.z : ' + this.camera.position.z)
+        }
       }
       if (this.$store.state.pageInfo.pageName != 'topage') {
         this.camera.lookAt(0, 1, this.camera.position.z)
