@@ -26,7 +26,13 @@ export default new Vuex.Store({
       var step = (state.pageInfoList[1].position[2] - state.pageInfo.position[2]) / 0.04
       state.pageInfoList[1].step = step
       state.pageInfo = state.pageInfoList[1]
-      console.log('step : ' + state.pageInfo.step)
+    },
+    moveToTopPage(state) {
+      // 计算当前页面与目标距离的步长
+      var step = (state.pageInfoList[0].position[2] - state.pageInfo.position[2]) / 0.04
+      state.pageInfoList[0].step = step
+      state.pageInfo = state.pageInfoList[0]
+      console.log('state.pageInfo : ' + state.pageInfo.position[0])
     },
   },
   actions: {},

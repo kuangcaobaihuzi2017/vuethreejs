@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon></v-app-bar-nav-icon>
     <v-toolbar-title>Sample</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn text> <v-icon>mdi-shield-home</v-icon>ホームページ </v-btn>
+    <v-btn text @click="moveToTopPage"> <v-icon>mdi-shield-home</v-icon>ホームページ </v-btn>
     <v-btn text @click="moveToServiceList"> <v-icon>mdi-store-check</v-icon>サービス一覧 </v-btn>
     <v-btn text> <v-icon>mdi-magnify-expand</v-icon>研究方向 </v-btn>
     <v-btn text> <v-icon>mdi-arrow-collapse-all</v-icon>会社情報 </v-btn>
@@ -17,6 +17,9 @@ export default {
   methods: {
     moveToServiceList() {
       this.$store.commit('moveToServiceList')
+    },
+    moveToTopPage() {
+      this.$store.commit('moveToTopPage')
     },
   },
 }
