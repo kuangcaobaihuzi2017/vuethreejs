@@ -221,6 +221,12 @@ export default {
         this.scene.add(lineText)
       })
     },
+    createFibonacci: function () {
+      const sphere = new THREE.SphereGeometry(0.1, 32, 132)
+      var light1 = new THREE.PointLight(0xff0040, 2, 5)
+      light1.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xff0040 })))
+      this.scene.add(light1)
+    },
     init: function () {
       this.container = document.getElementById('container')
       this.initScene()
@@ -233,6 +239,7 @@ export default {
       this.importPegasasu()
       this.importStart()
       this.importFrot()
+      this.createFibonacci()
       this.container.appendChild(this.renderer.domElement)
     },
     calPositionAndLookAt: function () {
