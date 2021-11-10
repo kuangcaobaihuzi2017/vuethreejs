@@ -238,21 +238,21 @@ export default {
     calPositionAndLookAt: function () {
       if (!this.$store.state.inPositionFlag) {
         // 获取当前页面最终相机位置
-        if (this.camera.position.x <= this.$store.state.pageInfo.position[0]) {
+        if (this.camera.position.x < this.$store.state.pageInfo.position[0]) {
           this.camera.position.x += 0.5
         }
-        if (this.camera.position.y <= this.$store.state.pageInfo.position[1]) {
+        if (this.camera.position.y < this.$store.state.pageInfo.position[1]) {
           this.camera.position.y += 0.5
         }
         // 从左往右移动时
         if (this.$store.state.pageInfo.direction == 'right') {
-          if (Math.abs(this.camera.position.z) <= this.$store.state.pageInfo.position[2]) {
+          if (Math.abs(this.camera.position.z) < this.$store.state.pageInfo.position[2]) {
             this.camera.position.z -= 0.5
             console.log('this.camera.position.z : ' + this.camera.position.z)
           }
           // 从右往左移动时
         } else if (this.$store.state.pageInfo.direction == 'left') {
-          if (this.camera.position.z <= Math.abs(this.$store.state.pageInfo.position[2])) {
+          if (this.camera.position.z < Math.abs(this.$store.state.pageInfo.position[2])) {
             this.camera.position.z += 0.5
             console.log('this.camera.position.z : ' + this.camera.position.z)
           }
