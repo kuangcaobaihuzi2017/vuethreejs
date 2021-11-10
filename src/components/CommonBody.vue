@@ -236,22 +236,30 @@ export default {
       this.container.appendChild(this.renderer.domElement)
     },
     calPositionAndLookAt: function () {
-      // 获取当前页面最终相机位置
-      if (this.camera.position.x <= this.$store.state.pageInfo.position[0]) {
-        this.camera.position.x += 0.5
+      if (!this.$store.state.inPositionFlag) {
+        // 获取当前页面最终相机位置
+        if (this.camera.position.x < this.$store.state.pageInfo.position[0]) {
+          this.camera.position.x += 0.5
+        }
+        if (this.camera.position.y < this.$store.state.pageInfo.position[1]) {
+          this.camera.position.y += 0.5
+        }
+        // 从左往右移动时
+        if (this.$store.state.pageInfo.direction == 'right') {
+          if (Math.abs(this.camera.position.z) < this.$store.state.pageInfo.position[2]) {
+            this.camera.position.z -= 0.5
+            console.log('this.camera.position.z : ' + this.camera.position.z)
+          }
+          // 从右往左移动时
+        } else if (this.$store.state.pageInfo.direction == 'left') {
+          if (this.camera.position.z < Math.abs(this.$store.state.pageInfo.position[2])) {
+            this.camera.position.z += 0.5
+            console.log('this.camera.position.z : ' + this.camera.position.z)
+          }
+        }
       }
-      if (this.camera.position.y <= this.$store.state.pageInfo.position[1]) {
-        this.camera.position.y += 0.5
-      }
-      if (Math.abs(this.camera.position.z) <= this.$store.state.pageInfo.position[2]) {
-        this.camera.position.z -= 0.5
-        console.log('this.camera.position.z : ' + this.camera.position.z)
-      }
-      if (this.$store.state.pageInfo.pageName != 'topage') {
-        this.camera.lookAt(0, 1, this.camera.position.z)
-      } else {
-        this.camera.lookAt(0, 1, 0)
-      }
+
+      this.camera.lookAt(0, 1, -this.$store.state.pageInfo.position[2])
     },
     animate: function () {
       requestAnimationFrame(this.animate)
@@ -265,6 +273,17 @@ export default {
       this.$store.commit('setCamera', {
         camera: this.camera,
       })
+      // 查看是否移动到了目标位置，如果已经移动到了目标位置，鼠标操作视角后，也不在移动
+      if (
+        parseInt(this.camera.position.x) === this.$store.state.pageInfo.position[0] &&
+        parseInt(this.camera.position.y) === this.$store.state.pageInfo.position[1] &&
+        parseInt(this.camera.position.z) === this.$store.state.pageInfo.position[2]
+      ) {
+        // 如果已经就位则提交为真
+        this.$store.commit('changeInPositionFlag', true)
+      } else {
+        this.$store.commit('changeInPositionFlag', false)
+      }
       this.renderer.render(this.scene, this.camera)
     },
   },
