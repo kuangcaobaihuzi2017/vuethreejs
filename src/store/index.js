@@ -9,15 +9,15 @@ export default new Vuex.Store({
     inPositionFlag: false,
     pageInfoList: [
       // 默认首页面
-      { pageName: 'topage', flag: true, position: [9, 3, 0], step: 0 },
-      { pageName: 'serviceList', flag: false, position: [9, 3, 30], step: 0 },
-      { pageName: 'research', flag: false, position: [9, 3, 60], step: 0 },
-      { pageName: 'company', flag: false, position: [9, 3, 90], step: 0 },
-      { pageName: 'job', flag: false, position: [9, 3, 120], step: 0 },
-      { pageName: 'map', flag: false, position: [9, 3, 150], step: 0 },
+      { pageName: 'topage', flag: true, position: [12, 3, 0], step: 0 },
+      { pageName: 'serviceList', flag: false, position: [12, 3, 30], step: 0 },
+      { pageName: 'research', flag: false, position: [12, 3, 60], step: 0 },
+      { pageName: 'company', flag: false, position: [12, 3, 90], step: 0 },
+      { pageName: 'job', flag: false, position: [12, 3, 120], step: 0 },
+      { pageName: 'map', flag: false, position: [12, 3, 150], step: 0 },
     ],
     // 基本現在のカメラの信息を格納
-    pageInfo: { pageName: 'topage', flag: true, position: [9, 3, 0], step: 0, direction: 'right' },
+    pageInfo: { pageName: 'topage', flag: true, position: [12, 3, 0], step: 0, direction: 'right' },
   },
   mutations: {
     setCamera(state, cameraDto) {
