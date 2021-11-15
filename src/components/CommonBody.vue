@@ -251,7 +251,7 @@ export default {
 
         const text = new THREE.Mesh(geometry, matLite)
         text.rotation.set(0, 45, 0)
-        text.position.set(0, 2.3, -34)
+        text.position.set(0, 3, -34)
         this.scene.add(text)
 
         const holeShapes = []
@@ -283,11 +283,32 @@ export default {
           lineText.add(lineMesh)
         }
         lineText.rotation.set(0, 45, 0)
-        lineText.position.set(0.2, 2.3, -34)
+        lineText.position.set(0.2, 3, -34)
         this.scene.add(lineText)
       })
     },
-    importServiceList: function () {
+    importServiceItSkill: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/pg.fbx',
+        (pg) => {
+          pg.position.set(-2, 0, -31)
+          pg.rotation.set(0, 90, 0)
+          pg.scale.set(0.005, 0.005, 0.005)
+          pg.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 0.3, 2)
+            }
+          })
+          this.scene.add(pg)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
+    },
+    importServiceOrder: function () {
       var model = new FBXLoader()
       model.load(
         '/static/pg.fbx',
@@ -320,7 +341,7 @@ export default {
       this.importPegasasu()
       this.importStart()
       this.importTopPageFront()
-      this.importServiceList()
+      this.importServiceItSkill()
       this.importServiceFront()
       this.container.appendChild(this.renderer.domElement)
     },
