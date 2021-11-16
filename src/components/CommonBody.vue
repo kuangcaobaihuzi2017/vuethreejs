@@ -118,7 +118,7 @@ export default {
           pegasasu.scale.set(0.05, 0.05, 0.05)
           pegasasu.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
-              child.material.color.setRGB(1, 0.3, 2)
+              child.material.color.setRGB(0, 0, 0)
             }
           })
           this.scene.add(pegasasu)
@@ -155,7 +155,7 @@ export default {
         }
       )
     },
-    importFrot: function () {
+    importTopPageFront: function () {
       var font = new FontLoader()
       font.load('/static/helvetiker_regular.typeface.json', (json) => {
         const color = 0x006699
@@ -221,13 +221,114 @@ export default {
         this.scene.add(lineText)
       })
     },
-    // createFibonacci: function () {
-    //   const sphere = new THREE.SphereGeometry(0.04, 32, 132)
-    //   var light1 = new THREE.PointLight(0xff0040, 2, 5)
-    //   light1.position.set(0, 0.5, -30)
-    //   light1.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xff0040 })))
-    //   this.scene.add(light1)
-    // },
+    importServiceFront: function () {
+      var font = new FontLoader()
+      font.load('/static/helvetiker_regular.typeface.json', (json) => {
+        const color = 0x006699
+        const matDark = new THREE.LineBasicMaterial({
+          color: color,
+          side: THREE.DoubleSide,
+        })
+
+        const matLite = new THREE.MeshBasicMaterial({
+          color: color,
+          transparent: true,
+          opacity: 0.4,
+          side: THREE.DoubleSide,
+        })
+        // A programming course that will never be frustrated
+        const message = '     Programming \n   course that will\nnever be frustrated'
+
+        const shapes = json.generateShapes(message, 0.7)
+
+        const geometry = new THREE.ShapeGeometry(shapes)
+
+        geometry.computeBoundingBox()
+
+        const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x)
+
+        geometry.translate(xMid, 0, 0)
+
+        const text = new THREE.Mesh(geometry, matLite)
+        text.rotation.set(0, 45, 0)
+        text.position.set(0, 3, -34)
+        this.scene.add(text)
+
+        const holeShapes = []
+
+        for (let i = 0; i < shapes.length; i++) {
+          const shape = shapes[i]
+
+          if (shape.holes && shape.holes.length > 0) {
+            for (let j = 0; j < shape.holes.length; j++) {
+              const hole = shape.holes[j]
+              holeShapes.push(hole)
+            }
+          }
+        }
+
+        shapes.push.apply(shapes, holeShapes)
+
+        const lineText = new THREE.Object3D()
+
+        for (let i = 0; i < shapes.length; i++) {
+          const shape = shapes[i]
+
+          const points = shape.getPoints()
+          const geometry = new THREE.BufferGeometry().setFromPoints(points)
+
+          geometry.translate(xMid, 0, 0)
+
+          const lineMesh = new THREE.Line(geometry, matDark)
+          lineText.add(lineMesh)
+        }
+        lineText.rotation.set(0, 45, 0)
+        lineText.position.set(0.2, 3, -34)
+        this.scene.add(lineText)
+      })
+    },
+    importServiceItSkill: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/pg.fbx',
+        (pg) => {
+          pg.position.set(-2, 0, -31)
+          pg.rotation.set(0, 90, 0)
+          pg.scale.set(0.005, 0.005, 0.005)
+          pg.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 0.3, 2)
+            }
+          })
+          this.scene.add(pg)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
+    },
+    importServiceOrder: function () {
+      var model = new FBXLoader()
+      model.load(
+        '/static/Factory_Low.fbx',
+        (pg) => {
+          pg.position.set(-2, 0, -31)
+          pg.rotation.set(0, 33, 0)
+          pg.scale.set(0.005, 0.005, 0.005)
+          pg.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+              child.material.color.setRGB(1, 0.3, 2)
+            }
+          })
+          this.scene.add(pg)
+        },
+        undefined,
+        function (error) {
+          console.log(error)
+        }
+      )
+    },
     init: function () {
       this.container = document.getElementById('container')
       this.initScene()
@@ -239,7 +340,10 @@ export default {
       this.importCloud()
       this.importPegasasu()
       this.importStart()
-      this.importFrot()
+      this.importTopPageFront()
+      this.importServiceItSkill()
+      this.importServiceOrder()
+      this.importServiceFront()
       this.container.appendChild(this.renderer.domElement)
     },
     calPositionAndLookAt: function () {
