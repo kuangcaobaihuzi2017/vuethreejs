@@ -118,7 +118,7 @@ export default {
           pegasasu.scale.set(0.05, 0.05, 0.05)
           pegasasu.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
-              child.material.color.setRGB(1, 0.3, 2)
+              child.material.color.setRGB(0, 0, 0)
             }
           })
           this.scene.add(pegasasu)
@@ -237,7 +237,7 @@ export default {
           side: THREE.DoubleSide,
         })
         // A programming course that will never be frustrated
-        const message = '     programming \n   course that will\nnever be frustrated'
+        const message = '     Programming \n   course that will\nnever be frustrated'
 
         const shapes = json.generateShapes(message, 0.7)
 
@@ -311,10 +311,10 @@ export default {
     importServiceOrder: function () {
       var model = new FBXLoader()
       model.load(
-        '/static/pg.fbx',
+        '/static/Factory_Low.fbx',
         (pg) => {
           pg.position.set(-2, 0, -31)
-          pg.rotation.set(0, 90, 0)
+          pg.rotation.set(0, 33, 0)
           pg.scale.set(0.005, 0.005, 0.005)
           pg.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
@@ -342,6 +342,7 @@ export default {
       this.importStart()
       this.importTopPageFront()
       this.importServiceItSkill()
+      this.importServiceOrder()
       this.importServiceFront()
       this.container.appendChild(this.renderer.domElement)
     },

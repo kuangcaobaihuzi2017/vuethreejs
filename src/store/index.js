@@ -23,7 +23,8 @@ export default new Vuex.Store({
     setCamera(state, cameraDto) {
       state.camera = cameraDto
     },
-    moveToServiceList(state) {
+    moveToServiceList(state, item) {
+      console.log('item : ' + item)
       // 计算当前页面与目标距离的步长
       var step = (state.pageInfoList[1].position[2] - state.pageInfo.position[2]) / 0.04
       state.pageInfoList[1].step = step
