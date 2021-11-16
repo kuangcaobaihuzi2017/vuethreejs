@@ -25,12 +25,12 @@
 <script>
 export default {
   data: () => ({
-    items: ['オンラインITとソフトウェアのコース：ITSKILLS', '受託開発/常駐開発', '次世代動画サイト：ｘｘｘｘ', '次世代ロボット：ｘｘｘｘ'],
+    items: ['プログラミングコース', '受託開発/常駐開発', '次世代動画サイト：ｘｘｘｘ', '次世代ロボット：ｘｘｘｘ'],
   }),
   methods: {
     moveToServiceList(item) {
-      console.log(item)
-      this.$store.commit('moveToServiceList')
+      console.log('item : ' + item)
+      this.$store.commit('moveToServiceList', { item })
     },
     moveToTopPage() {
       this.$store.commit('moveToTopPage')
