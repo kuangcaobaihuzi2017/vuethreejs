@@ -359,13 +359,11 @@ export default {
         if (this.$store.state.pageInfo.direction == 'right') {
           if (Math.abs(this.camera.position.z) < this.$store.state.pageInfo.position[2]) {
             this.camera.position.z -= 0.5
-            console.log('this.camera.position.z : ' + this.camera.position.z)
           }
           // 从右往左移动时
         } else if (this.$store.state.pageInfo.direction == 'left') {
           if (this.camera.position.z < Math.abs(this.$store.state.pageInfo.position[2])) {
             this.camera.position.z += 0.5
-            console.log('this.camera.position.z : ' + this.camera.position.z)
           }
         }
       }
