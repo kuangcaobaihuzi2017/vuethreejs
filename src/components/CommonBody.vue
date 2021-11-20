@@ -313,7 +313,7 @@ export default {
       model.load(
         '/static/Factory_Low.fbx',
         (pg) => {
-          pg.position.set(-2, 0, -31)
+          pg.position.set(-30, 0, -31)
           pg.rotation.set(0, 33, 0)
           pg.scale.set(0.005, 0.005, 0.005)
           pg.traverse(function (child) {
