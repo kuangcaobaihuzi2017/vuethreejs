@@ -8,20 +8,7 @@ export default new Vuex.Store({
     camera: null,
     scene: null,
     render: null,
-    pageInfoList: [
-      // 默认首页面
-      { pageValue: 'topage', flag: true, position: [12, 3, 0], step: 0 },
-      { pageValue: 'service1', flag: false, position: [12, 3, 30], step: 0, pageName: 'プログラミングコース' },
-      { pageValue: 'service2', flag: false, position: [12, 3, 30], step: 0, pageName: '受託開発/常駐開発' },
-      { pageValue: 'service3', flag: false, position: [12, 3, 30], step: 0, pageName: '次世代動画サイト：ｘｘｘｘ' },
-      { pageValue: 'service4', flag: false, position: [12, 3, 30], step: 0, pageName: '次世代ロボット：ｘｘｘｘ' },
-      { pageValue: 'research', flag: false, position: [12, 3, 60], step: 0 },
-      { pageValue: 'company', flag: false, position: [12, 3, 90], step: 0 },
-      { pageValue: 'job', flag: false, position: [12, 3, 120], step: 0 },
-      { pageValue: 'map', flag: false, position: [12, 3, 150], step: 0 },
-    ],
-    // 基本現在のカメラの信息を格納
-    pageInfo: { pageValue: 'topage', flag: true, position: [12, 3, 0], step: 0, direction: 'right' },
+    animationCount: 0,
   },
   mutations: {
     setCamera(state, cameraDto) {
@@ -48,6 +35,9 @@ export default new Vuex.Store({
     },
     addToScene(state, objDto) {
       state.scene.add(objDto)
+    },
+    countAnimation(state) {
+      state.animationCount = state.animationCount + 1
     },
   },
   actions: {},
