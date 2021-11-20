@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     camera: null,
-    inPositionFlag: false,
+    scene: null,
+    render: null,
     pageInfoList: [
       // 默认首页面
       { pageValue: 'topage', flag: true, position: [12, 3, 0], step: 0 },
@@ -26,28 +27,27 @@ export default new Vuex.Store({
     setCamera(state, cameraDto) {
       state.camera = cameraDto
     },
-    moveToServiceList(state, pageInfo) {
-      for (var count = 0; count < state.pageInfoList.size; count++) {
-        console.log('pageInfo.pageName : ' + pageInfo.pageName)
-        if (pageInfo.pageName === state.pageInfoList[count].pageName) {
-          // 计算当前页面与目标距离的步长
-          var step = (state.pageInfoList[1].position[2] - state.pageInfo.position[2]) / 0.04
-          state.pageInfoList[1].step = step
-          state.pageInfo = state.pageInfoList[1]
-          state.pageInfo.direction = 'right'
-        }
-      }
+    setCameraAspect(state, width, height) {
+      state.camera.aspect = width / height
+      state.camera.updateProjectionMatrix()
     },
-    moveToTopPage(state) {
-      // 计算当前页面与目标距离的步长
-      var step = (state.pageInfoList[0].position[2] - state.pageInfo.position[2]) / 0.04
-      state.pageInfoList[0].step = step
-      state.pageInfo = state.pageInfoList[0]
-      state.pageInfo.direction = 'left'
-      console.log('state.pageInfo : ' + state.pageInfo.position[0])
+    createScene(state, scene) {
+      state.scene = scene
     },
-    changeInPositionFlag(state, parmas) {
-      state.inPositionFlag = parmas
+    createCamera(state, camera) {
+      state.camera = camera
+    },
+    createRender(state, render) {
+      state.render = render
+    },
+    setRender(state, width, height) {
+      state.render.setSize(width, height)
+    },
+    render(state) {
+      state.render.render(state.scene, state.camera)
+    },
+    addToScene(state, objDto) {
+      state.scene.add(objDto)
     },
   },
   actions: {},
