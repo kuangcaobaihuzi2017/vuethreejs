@@ -24,9 +24,11 @@
 
 <script>
 export default {
-  data: () => ({
-    items: ['プログラミングコース', '受託開発/常駐開発', '次世代動画サイト：ｘｘｘｘ', '次世代ロボット：ｘｘｘｘ'],
-  }),
+  data() {
+    return {
+      items: ['プログラミングコース', '受託開発/常駐開発', '次世代動画サイト：ｘｘｘｘ', '次世代ロボット：ｘｘｘｘ'],
+    }
+  },
   methods: {
     moveToServiceList(pageName) {
       this.$store.commit('moveToServiceList', { pageName })
