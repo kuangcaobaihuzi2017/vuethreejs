@@ -42,7 +42,7 @@ function importStar() {
       for (var i = 0; i < 32; i++) {
         var newStar = starInstance.clone()
         // 在页面初始化的时候，所有星星在x轴上的坐标都在相机视野外
-        newStar.position.set(0, 1 + 2 * Math.cos((range * i * 3.14) / 180), 2 * Math.sin((range * i * 3.14) / 180) - 3)
+        newStar.position.set(9, 1 + 2 * Math.cos((range * i * 3.14) / 180), 2 * Math.sin((range * i * 3.14) / 180) - 3)
         newStar.rotation.set(0, Math.PI * 0.5, 0)
         newStar.name = 'star' + i
         newStar.traverse(function (child) {

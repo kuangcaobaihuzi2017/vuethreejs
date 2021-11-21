@@ -39,6 +39,9 @@ export default new Vuex.Store({
     countAnimation(state) {
       state.animationCount = state.animationCount + 1
     },
+    adjPosition(state, objName) {
+      state.scene.getObjectByName(objName).translateZ(-0.05)
+    },
   },
   actions: {},
   modules: {},

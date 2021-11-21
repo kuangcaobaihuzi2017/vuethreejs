@@ -12,7 +12,7 @@ import { createLight } from '../pageinfo/light.js'
 import { createOrbitControls } from '../pageinfo/cameraController.js'
 import { createCamera } from '../pageinfo/camera.js'
 import { createRender } from '../pageinfo/render.js'
-import * as THREE from 'three'
+import { changeStarPosition } from '../animation/starsAnimation.js'
 export default {
   data() {
     return {
@@ -37,9 +37,7 @@ export default {
     },
     animate: function () {
       requestAnimationFrame(this.animate)
-      if (this.$store.state.scene.getObjectByName('star1') !== undefined) {
-        this.$store.state.scene.getObjectByName('star1').translateOnAxis(new THREE.Vector3(1, 0, 0), Math.floor(Math.random() * 0.001) + 0.005)
-      }
+      changeStarPosition()
       this.$store.commit('countAnimation')
       this.$store.commit('render')
     },
