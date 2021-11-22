@@ -13,6 +13,7 @@ import { createOrbitControls } from '../pageinfo/cameraController.js'
 import { createCamera } from '../pageinfo/camera.js'
 import { createRender } from '../pageinfo/render.js'
 import { changeStarPosition } from '../animation/starsAnimation.js'
+import { changeFontPosition } from '../animation/topPageAnimation.js'
 export default {
   data() {
     return {
@@ -38,6 +39,7 @@ export default {
     animate: function () {
       requestAnimationFrame(this.animate)
       changeStarPosition()
+      changeFontPosition()
       this.$store.commit('countAnimation')
       this.$store.commit('render')
     },

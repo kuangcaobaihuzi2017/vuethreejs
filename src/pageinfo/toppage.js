@@ -66,11 +66,7 @@ function importStar() {
 function importTopPageFont() {
   var font = new FontLoader()
   font.load('/static/helvetiker_regular.typeface.json', (json) => {
-    const color = 0x006699
-    const matDark = new THREE.LineBasicMaterial({
-      color: color,
-      side: THREE.DoubleSide,
-    })
+    const color = 0x330066
     const matLite = new THREE.MeshBasicMaterial({
       color: color,
       transparent: true,
@@ -85,7 +81,7 @@ function importTopPageFont() {
     geometry.translate(xMid, 0, 0)
     const text = new THREE.Mesh(geometry, matLite)
     text.rotation.set(0, 90, 0)
-    text.position.set(0, 2.3, 2.5)
+    text.position.set(0, 2.3, 15)
     text.name = 'fontFront'
     store.commit('addToScene', text)
     const holeShapes = []
@@ -98,20 +94,6 @@ function importTopPageFont() {
         }
       }
     }
-    shapes.push.apply(shapes, holeShapes)
-    const lineText = new THREE.Object3D()
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      const points = shape.getPoints()
-      const geometry = new THREE.BufferGeometry().setFromPoints(points)
-      geometry.translate(xMid, 0, 0)
-      const lineMesh = new THREE.Line(geometry, matDark)
-      lineText.add(lineMesh)
-    }
-    lineText.rotation.set(0, 90, 0)
-    lineText.position.set(1, 2.3, 2)
-    text.name = 'fontBack'
-    store.commit('addToScene', lineText)
   })
 }
 export { createTopPage }
