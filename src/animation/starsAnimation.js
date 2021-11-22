@@ -13,8 +13,9 @@ function changeStarPosition() {
 
       // 从store获取渲染回数，每个星的渲染间隔10次(暂定)
       // 如果当前循环中的星已经达到渲染间隔，则提交位置更改
-      if (store.state.animationCount > i * 10) {
-        store.commit('adjPosition', 'star' + i)
+      if (store.state.animationCount > i * 4) {
+        // store.commit('adjPosition', 'star' + i, '-1')
+        store.commit('adjPosition', { objName: 'star' + i, distanceX: 0, distanceY: 0, distanceZ: -1 })
       }
     }
   }
