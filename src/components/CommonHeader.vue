@@ -6,7 +6,7 @@
     <v-btn text @click="moveToTopPage"> <v-icon>mdi-shield-home</v-icon>ホームページ </v-btn>
     <v-menu open-on-hover>
       <template v-slot:activator="{ attrs, on }">
-        <v-btn text v-bind="attrs" v-on="on"> <v-icon>mdi-store-check</v-icon>产品一览 </v-btn>
+        <v-btn text v-bind="attrs" v-on="on"> <v-icon>mdi-store-check</v-icon>製品/サービス一覧 </v-btn>
       </template>
 
       <v-list dark dense outlined rounded color="purple">
@@ -26,7 +26,7 @@
 export default {
   data() {
     return {
-      items: ['プログラミングコース', '受託開発/常駐開発', '次世代動画サイト：ｘｘｘｘ', '次世代ロボット：ｘｘｘｘ'],
+      items: ['受託開発/常駐開発', 'プログラミングコース', '次世代動画サイト：ｘｘｘｘ', '次世代ロボット：ｘｘｘｘ'],
     }
   },
   methods: {

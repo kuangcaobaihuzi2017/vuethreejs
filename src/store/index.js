@@ -9,6 +9,7 @@ export default new Vuex.Store({
     scene: null,
     render: null,
     animationCount: 0,
+    lookAtPosition: [],
   },
   mutations: {
     setCamera(state, cameraDto) {
@@ -43,6 +44,11 @@ export default new Vuex.Store({
       state.scene.getObjectByName(obj.objName).translateX(obj.distanceX)
       state.scene.getObjectByName(obj.objName).translateY(obj.distanceY)
       state.scene.getObjectByName(obj.objName).translateZ(obj.distanceZ)
+    },
+    setLookAtPosition(state, obj) {
+      state.lookAtPosition.push(obj.distanceX)
+      state.lookAtPosition.push(obj.distanceY)
+      state.lookAtPosition.push(obj.distanceZ)
     },
   },
   actions: {},
