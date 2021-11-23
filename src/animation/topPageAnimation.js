@@ -6,7 +6,6 @@ function changeFontPosition() {
     if (store.state.scene.getObjectByName('fontFront').position.z < 3) {
       return
     } else {
-      console.log('fontFront : ' + store.state.scene.getObjectByName('fontFront').position.z)
       // 则开始着手移动字体
       store.commit('adjPosition', { objName: 'fontFront', distanceX: 0.1, distanceY: 0, distanceZ: 0.05 })
     }

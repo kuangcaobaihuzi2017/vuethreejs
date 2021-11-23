@@ -14,6 +14,7 @@ import { createCamera } from '../pageinfo/camera.js'
 import { createRender } from '../pageinfo/render.js'
 import { changeStarPosition } from '../animation/starsAnimation.js'
 import { changeFontPosition } from '../animation/topPageAnimation.js'
+import { createServiceListF } from '../pageinfo/seService.js'
 export default {
   data() {
     return {
@@ -33,6 +34,7 @@ export default {
       createRender()
       createOrbitControls()
       createTopPage()
+      createServiceListF()
       this.container = document.getElementById('container')
       this.container.appendChild(this.$store.state.render.domElement)
     },
@@ -40,6 +42,7 @@ export default {
       requestAnimationFrame(this.animate)
       changeStarPosition()
       changeFontPosition()
+      this.$store.state.camera.lookAt(this.$store.state.lookAtPosition[0], this.$store.state.lookAtPosition[1], this.$store.state.lookAtPosition[2])
       this.$store.commit('countAnimation')
       this.$store.commit('render')
     },
