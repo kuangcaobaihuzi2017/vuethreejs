@@ -9,6 +9,7 @@ function createTopPage() {
   importStar()
   // 导入首页欢迎文字
   importTopPageFont()
+  importTopPageFont2()
 }
 // 导入天马模型
 function importPegasasu() {
@@ -62,10 +63,10 @@ function importStar() {
     }
   )
 }
-// 导入首页欢迎文字
+// 导入首页欢迎文字2
 function importTopPageFont() {
   var font = new FontLoader()
-  font.load('/static/helvetiker_regular.typeface.json', (json) => {
+  font.load('/static/07YasashisaGothic_Regular.json', (json) => {
     const color = 0x330066
     const matLite = new THREE.MeshBasicMaterial({
       color: color,
@@ -73,7 +74,41 @@ function importTopPageFont() {
       opacity: 0.4,
       side: THREE.DoubleSide,
     })
-    const message = 'Welcome to\n  Baisheng \n  Dynamix.'
+    const message = '梦想創造未来'
+    const shapes = json.generateShapes(message, 0.7)
+    const geometry = new THREE.ShapeGeometry(shapes)
+    geometry.computeBoundingBox()
+    const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x)
+    geometry.translate(xMid, 0, 0)
+    const text = new THREE.Mesh(geometry, matLite)
+    text.rotation.set(Math.PI / 2, Math.PI, (6 * Math.PI) / 4)
+    text.position.set(3.8, 0, 0)
+    text.name = 'fontFront2'
+    store.commit('addToScene', text)
+    const holeShapes = []
+    for (let i = 0; i < shapes.length; i++) {
+      const shape = shapes[i]
+      if (shape.holes && shape.holes.length > 0) {
+        for (let j = 0; j < shape.holes.length; j++) {
+          const hole = shape.holes[j]
+          holeShapes.push(hole)
+        }
+      }
+    }
+  })
+}
+// 导入首页欢迎文字2
+function importTopPageFont2() {
+  var font = new FontLoader()
+  font.load('/static/07YasashisaGothic_Regular.json', (json) => {
+    const color = 0x330066
+    const matLite = new THREE.MeshBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.4,
+      side: THREE.DoubleSide,
+    })
+    const message = '  Baisheng\n  Dynamic \n へようこそ.'
     const shapes = json.generateShapes(message, 0.7)
     const geometry = new THREE.ShapeGeometry(shapes)
     geometry.computeBoundingBox()

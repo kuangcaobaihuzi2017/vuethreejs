@@ -6,7 +6,7 @@
     <v-btn text @click="moveToTopPage"> <v-icon>mdi-shield-home</v-icon>ホームページ </v-btn>
     <v-menu open-on-hover>
       <template v-slot:activator="{ attrs, on }">
-        <v-btn text v-bind="attrs" v-on="on"> <v-icon>mdi-store-check</v-icon>業務案内 </v-btn>
+        <v-btn text v-bind="attrs" v-on="on"> <v-icon>mdi-store-check</v-icon>产品一览 </v-btn>
       </template>
 
       <v-list dark dense outlined rounded color="purple">
