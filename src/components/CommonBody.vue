@@ -16,6 +16,8 @@ import { changeStarPosition } from '../animation/starsAnimation.js'
 import { changeFontPosition } from '../animation/topPageAnimation.js'
 import { createServiceListF } from '../pageinfo/seService.js'
 import { createServiceListPg } from '../pageinfo/pgcourse.js'
+import { createResearchPage } from '../pageinfo/researchPage.js'
+
 export default {
   data() {
     return {
@@ -37,6 +39,7 @@ export default {
       createTopPage()
       createServiceListF()
       createServiceListPg()
+      createResearchPage()
       this.container = document.getElementById('container')
       this.container.appendChild(this.$store.state.render.domElement)
     },
