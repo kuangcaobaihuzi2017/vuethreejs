@@ -41,7 +41,7 @@ function importThinkerFont() {
       opacity: 0.4,
       side: THREE.DoubleSide,
     })
-    const message = '先端技術 ×素晴らしい発想 \n= 次世代動画エンジン：'
+    const message = '先端技術 ×素晴らしい発想 \n= 次世代動画エンジン'
     const shapes = json.generateShapes(message, 0.7)
     const geometry = new THREE.ShapeGeometry(shapes)
     geometry.computeBoundingBox()
