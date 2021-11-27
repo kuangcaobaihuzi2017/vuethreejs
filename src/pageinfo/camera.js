@@ -3,9 +3,9 @@ import store from '../store'
 function createCamera() {
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100)
   // 相机位置xyz
-  camera.position.set(-19, 3, -30)
+  camera.position.set(-0, 3, -60)
   // 将创建好的camera提交到store
   store.commit('createCamera', camera)
-  store.commit('setLookAtPosition', { distanceX: -29, distanceY: 0, distanceZ: -30 })
+  store.commit('setLookAtPosition', { distanceX: -9, distanceY: 0, distanceZ: -60 })
 }
 export { createCamera }
