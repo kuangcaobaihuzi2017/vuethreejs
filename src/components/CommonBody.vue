@@ -15,6 +15,7 @@ import { createRender } from '../pageinfo/render.js'
 import { changeStarPosition } from '../animation/starsAnimation.js'
 import { changeFontPosition } from '../animation/topPageAnimation.js'
 import { createServiceListF } from '../pageinfo/seService.js'
+import { createServiceListPg } from '../pageinfo/pgcourse.js'
 export default {
   data() {
     return {
@@ -35,6 +36,7 @@ export default {
       createOrbitControls()
       createTopPage()
       createServiceListF()
+      createServiceListPg()
       this.container = document.getElementById('container')
       this.container.appendChild(this.$store.state.render.domElement)
     },

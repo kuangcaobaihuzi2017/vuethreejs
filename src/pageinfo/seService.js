@@ -31,6 +31,7 @@ function createServiceListF() {
   importDumpModel()
   // 导入流通文字
   importDumpFont()
+  importExpFont()
 }
 // 导入银行模型
 function importBankModel() {
@@ -78,16 +79,6 @@ function importBankFont() {
     text.scale.set(0.35, 0.35, 0.35)
     text.name = 'fontFront2'
     store.commit('addToScene', text)
-    const holeShapes = []
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      if (shape.holes && shape.holes.length > 0) {
-        for (let j = 0; j < shape.holes.length; j++) {
-          const hole = shape.holes[j]
-          holeShapes.push(hole)
-        }
-      }
-    }
   })
 }
 
@@ -136,16 +127,6 @@ function importArchFont() {
     text.scale.set(0.35, 0.35, 0.35)
     text.name = 'fontFront2'
     store.commit('addToScene', text)
-    const holeShapes = []
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      if (shape.holes && shape.holes.length > 0) {
-        for (let j = 0; j < shape.holes.length; j++) {
-          const hole = shape.holes[j]
-          holeShapes.push(hole)
-        }
-      }
-    }
   })
 }
 // 导入通信模型
@@ -193,16 +174,6 @@ function importCommFont() {
     text.scale.set(0.35, 0.35, 0.35)
     text.name = 'fontFront2'
     store.commit('addToScene', text)
-    const holeShapes = []
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      if (shape.holes && shape.holes.length > 0) {
-        for (let j = 0; j < shape.holes.length; j++) {
-          const hole = shape.holes[j]
-          holeShapes.push(hole)
-        }
-      }
-    }
   })
 }
 
@@ -251,16 +222,6 @@ function importResFont() {
     text.scale.set(0.35, 0.35, 0.35)
     text.name = 'fontFront2'
     store.commit('addToScene', text)
-    const holeShapes = []
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      if (shape.holes && shape.holes.length > 0) {
-        for (let j = 0; j < shape.holes.length; j++) {
-          const hole = shape.holes[j]
-          holeShapes.push(hole)
-        }
-      }
-    }
   })
 }
 
@@ -309,16 +270,6 @@ function importFacFont() {
     text.scale.set(0.35, 0.35, 0.35)
     text.name = 'fontFront2'
     store.commit('addToScene', text)
-    const holeShapes = []
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      if (shape.holes && shape.holes.length > 0) {
-        for (let j = 0; j < shape.holes.length; j++) {
-          const hole = shape.holes[j]
-          holeShapes.push(hole)
-        }
-      }
-    }
   })
 }
 // 导入视频模型
@@ -366,16 +317,6 @@ function importVideoFont() {
     text.scale.set(0.35, 0.35, 0.35)
     text.name = 'fontFront2'
     store.commit('addToScene', text)
-    const holeShapes = []
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      if (shape.holes && shape.holes.length > 0) {
-        for (let j = 0; j < shape.holes.length; j++) {
-          const hole = shape.holes[j]
-          holeShapes.push(hole)
-        }
-      }
-    }
   })
 }
 
@@ -424,16 +365,32 @@ function importDumpFont() {
     text.scale.set(0.35, 0.35, 0.35)
     text.name = 'fontFront2'
     store.commit('addToScene', text)
-    const holeShapes = []
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i]
-      if (shape.holes && shape.holes.length > 0) {
-        for (let j = 0; j < shape.holes.length; j++) {
-          const hole = shape.holes[j]
-          holeShapes.push(hole)
-        }
-      }
-    }
+  })
+}
+// 导入首页欢迎文字2
+function importExpFont() {
+  var font = new FontLoader()
+  font.load('/static/07YasashisaGothic_Regular.json', (json) => {
+    const color = 0x330066
+    const matLite = new THREE.MeshBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.4,
+      side: THREE.DoubleSide,
+    })
+    const message =
+      '需要の高いJAVA、C#、VB.NET、\nC、PHP、SAP、salesforce、RPA、AI\n等の言語を使う優秀なエンジニアを紹介し \nクライアントの作業を補助します。 \n仕様書作成から試験まで、 \nあらゆる開発のフェーズに\n対応できる人材を用意します。'
+    const shapes = json.generateShapes(message, 0.7)
+    const geometry = new THREE.ShapeGeometry(shapes)
+    geometry.computeBoundingBox()
+    const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x)
+    geometry.translate(xMid, 0, 0)
+    const text = new THREE.Mesh(geometry, matLite)
+    text.scale.set(0.2, 0.2, 0.2)
+    text.rotation.set(0, 45, 0)
+    text.position.set(3, 2, -32.6)
+    text.name = 'fontFront2'
+    store.commit('addToScene', text)
   })
 }
 export { createServiceListF }
