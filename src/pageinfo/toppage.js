@@ -74,7 +74,7 @@ function importTopPageFont() {
       opacity: 0.4,
       side: THREE.DoubleSide,
     })
-    const message = '梦想創造未来'
+    const message = '希望創造未来'
     const shapes = json.generateShapes(message, 0.7)
     const geometry = new THREE.ShapeGeometry(shapes)
     geometry.computeBoundingBox()

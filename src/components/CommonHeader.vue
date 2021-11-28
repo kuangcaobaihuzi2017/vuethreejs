@@ -6,7 +6,7 @@
     <v-btn text @click="moveToTopPage"> <v-icon>mdi-shield-home</v-icon>ホームページ </v-btn>
     <v-menu open-on-hover>
       <template v-slot:activator="{ attrs, on }">
-        <v-btn text v-bind="attrs" v-on="on"> <v-icon>mdi-store-check</v-icon>製品/サービス一覧 </v-btn>
+        <v-btn text v-bind="attrs" v-on="on"> <v-icon>mdi-store-check</v-icon>業務案内</v-btn>
       </template>
 
       <v-list dark dense outlined rounded color="purple">
@@ -16,9 +16,8 @@
       </v-list>
     </v-menu>
     <v-btn text> <v-icon>mdi-magnify-expand</v-icon>研究方向 </v-btn>
-    <v-btn text> <v-icon>mdi-arrow-collapse-all</v-icon>会社情報 </v-btn>
-    <v-btn text> <v-icon>mdi-account-search</v-icon>求人情報 </v-btn>
-    <v-btn text> <v-icon>mdi-map-marker-outline</v-icon>アクセス </v-btn>
+    <v-btn text> <v-icon>mdi-arrow-collapse-all</v-icon>会社概要/アクセス</v-btn>
+    <v-btn text> <v-icon>mdi-account-search</v-icon>Join Us</v-btn>
   </v-app-bar>
 </template>
 
@@ -26,7 +25,7 @@
 export default {
   data() {
     return {
-      items: ['受託開発/常駐開発', 'プログラミングコース', '次世代動画サイト：ｘｘｘｘ', '次世代ロボット：ｘｘｘｘ'],
+      items: ['受託開発/常駐開発', 'プログラミングコース', 'オンライン動画編集サイト'],
     }
   },
   methods: {
