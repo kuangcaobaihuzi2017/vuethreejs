@@ -16,9 +16,8 @@
       </v-list>
     </v-menu>
     <v-btn text> <v-icon>mdi-magnify-expand</v-icon>研究方向 </v-btn>
-    <v-btn text> <v-icon>mdi-arrow-collapse-all</v-icon>会社情報 </v-btn>
-    <v-btn text> <v-icon>mdi-account-search</v-icon>求人情報 </v-btn>
-    <v-btn text> <v-icon>mdi-map-marker-outline</v-icon>アクセス </v-btn>
+    <v-btn text> <v-icon>mdi-arrow-collapse-all</v-icon>会社概要/アクセス</v-btn>
+    <v-btn text> <v-icon>mdi-account-search</v-icon>Join Us</v-btn>
   </v-app-bar>
 </template>
 
