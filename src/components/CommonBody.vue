@@ -5,18 +5,23 @@
 </template>
 
 <script>
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { createTopPage } from '../pageinfo/toppage.js'
+import { createScene } from '../pageinfo/scene.js'
+import { createGird } from '../pageinfo/grid.js'
+import { createLight } from '../pageinfo/light.js'
+import { createOrbitControls } from '../pageinfo/cameraController.js'
+import { createCamera } from '../pageinfo/camera.js'
+import { createRender } from '../pageinfo/render.js'
+import { changeStarPosition } from '../animation/starsAnimation.js'
+import { changeFontPosition } from '../animation/topPageAnimation.js'
+import { createServiceListF } from '../pageinfo/seService.js'
+import { createServiceListPg } from '../pageinfo/pgcourse.js'
+import { createResearchPage } from '../pageinfo/researchPage.js'
+
 export default {
   data() {
     return {
-      camera: null,
-      scene: null,
-      renderer: null,
-      orbcitControls: null,
-      container: null,
-      front: null,
-      groundMirror: null,
+      time: 0,
     }
   },
   mounted() {
@@ -24,78 +29,27 @@ export default {
     this.animate()
   },
   methods: {
-    initScene: function () {
-      this.scene = new THREE.Scene()
-      this.scene.background = new THREE.Color(0xe0e0e0)
+    init: function () {
+      createScene()
+      createGird()
+      createLight()
+      createCamera()
+      createRender()
+      createOrbitControls()
+      createTopPage()
+      createServiceListF()
+      createServiceListPg()
+      createResearchPage()
+      this.container = document.getElementById('container')
+      this.container.appendChild(this.$store.state.render.domElement)
     },
-    // 网格辅助线
-    initGird: function () {
-      // 第一个参数表示网格整个大小，第二个表示网格密度
-      const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000)
-      // 表示辅助网格的透明度，最大是1表示完全不透明
-      grid.material.opacity = 0.07
-      // 如果材质的transparent属性未设置为true，则材质将保持完全不透明，此值仅影响其颜色
-      grid.material.transparent = true
-      this.scene.add(grid)
-      // 地面的大小
-      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
-      mesh.rotation.x = -Math.PI / 2
-      this.scene.add(mesh)
-    },
-
-    intiHemiLight: function () {
-      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444)
-      hemiLight.position.set(0, 20, 0)
-      this.scene.add(hemiLight)
-
-      const dirLight = new THREE.DirectionalLight(0xffffff)
-      dirLight.position.set(0, 20, 10)
-      this.scene.add(dirLight)
-    },
-    initRenderer: function () {
-      this.renderer = new THREE.WebGLRenderer({ antialias: true })
-      this.renderer.setPixelRatio(window.devicePixelRatio)
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
-      this.renderer.outputEncoding = THREE.sRGBEncoding
-      this.renderer.outputEncoding = THREE.sRGBEncoding
-      window.addEventListener('resize', () => {
-        this.camera.aspect = window.innerWidth / window.innerHeight
-        this.camera.updateProjectionMatrix()
-        this.renderer.setSize(window.innerWidth, window.innerHeight)
-      })
-    },
-
-    initOrbitController: function () {
-      this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement)
-    },
-
     animate: function () {
       requestAnimationFrame(this.animate)
-
-      let vect = this.camera.getWorldDirection(new THREE.Vector3())
-      if (this.$store.state.position) {
-        this.camera.position.z += vect.dot(new THREE.Vector3(35, 10, 0)) * 0.04
-        if (this.camera.position.z == -70) {
-          this.$store.commit('changeStatus')
-        }
-        console.log('this.camera.position.z : ' + this.camera.position.z)
-      }
-      // 把相机的位置实时提交到store
-      this.$store.commit('setCameraPosition', {
-        cameraPositition: vect,
-      })
-      this.renderer.render(this.scene, this.camera)
-    },
-
-    init: function () {
-      this.container = document.getElementById('container')
-      this.initScene()
-      this.initGird()
-      this.intiHemiLight()
-      this.initCamera()
-      this.initRenderer()
-      this.initOrbitController()
-      this.container.appendChild(this.renderer.domElement)
+      changeStarPosition()
+      changeFontPosition()
+      this.$store.state.camera.lookAt(this.$store.state.lookAtPosition[0], this.$store.state.lookAtPosition[1], this.$store.state.lookAtPosition[2])
+      this.$store.commit('countAnimation')
+      this.$store.commit('render')
     },
   },
 }

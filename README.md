@@ -17,12 +17,17 @@ npm run serve
 
 # TODO
 ```
-让header,body,footer在同一个页面
+※让header,body,footer在同一个页面
 但是未做到让这三个部分成比例缩放
 还需要改进
+```
+```
+※实现了背景的岁时间更改而更改
+※让整个画面看起来整洁了一点
+※当页面移动到指定位置后，不在自动移动各轴坐标
 ```
 
 # 代码格式化
 ```
-npm run lint -- --fixSol
+npm run lint -- --fix
 ```
