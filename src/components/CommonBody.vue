@@ -17,6 +17,7 @@ import { changeFontPosition } from '../animation/topPageAnimation.js'
 import { createServiceListF } from '../pageinfo/seService.js'
 import { createServiceListPg } from '../pageinfo/pgcourse.js'
 import { createResearchPage } from '../pageinfo/researchPage.js'
+import { createComponyInfo } from '../pageinfo/componyInfo.js'
 
 export default {
   data() {
@@ -40,6 +41,7 @@ export default {
       createServiceListF()
       createServiceListPg()
       createResearchPage()
+      createComponyInfo()
       this.container = document.getElementById('container')
       this.container.appendChild(this.$store.state.render.domElement)
     },
