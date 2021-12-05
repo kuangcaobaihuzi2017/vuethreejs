@@ -14,10 +14,10 @@ import { createCamera } from '../pageinfo/camera.js'
 import { createRender } from '../pageinfo/render.js'
 import { changeStarPosition } from '../animation/starsAnimation.js'
 import { changeFontPosition } from '../animation/topPageAnimation.js'
-import { createServiceListF } from '../pageinfo/seService.js'
-import { createServiceListPg } from '../pageinfo/pgcourse.js'
-import { createResearchPage } from '../pageinfo/researchPage.js'
-import { createComponyInfo } from '../pageinfo/componyInfo.js'
+// import { createServiceListF } from '../pageinfo/seService.js'
+// import { createServiceListPg } from '../pageinfo/pgcourse.js'
+// import { createResearchPage } from '../pageinfo/researchPage.js'
+// import { createComponyInfo } from '../pageinfo/componyInfo.js'
 
 export default {
   data() {
@@ -38,10 +38,10 @@ export default {
       createRender()
       createOrbitControls()
       createTopPage()
-      createServiceListF()
-      createServiceListPg()
-      createResearchPage()
-      createComponyInfo()
+      // createServiceListF()
+      // createServiceListPg()
+      // createResearchPage()
+      // createComponyInfo()
       this.container = document.getElementById('container')
       this.container.appendChild(this.$store.state.render.domElement)
     },
