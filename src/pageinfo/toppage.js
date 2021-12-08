@@ -18,7 +18,7 @@ function importPegasasu() {
     '/static/Unicorn Pose 2.fbx',
     (pegasasu) => {
       pegasasu.position.set(-1.3, 0, -3)
-      pegasasu.rotation.set(0, Math.PI * 0.6, 0)asdasdasd
+      pegasasu.rotation.set(0, Math.PI * 0.6, 0)
       pegasasu.scale.set(0.05, 0.05, 0.05)
       pegasasu.traverse(function (child) {
         if (child instanceof THREE.Mesh) {
