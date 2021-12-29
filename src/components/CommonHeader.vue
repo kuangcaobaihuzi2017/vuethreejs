@@ -15,7 +15,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn text> <v-icon>mdi-magnify-expand</v-icon>研究方向 </v-btn>
+    <v-btn text @click="moveToResearch"> <v-icon>mdi-magnify-expand</v-icon>研究方向 </v-btn>
     <v-btn text> <v-icon>mdi-arrow-collapse-all</v-icon>会社概要/アクセス</v-btn>
     <v-btn text> <v-icon>mdi-account-search</v-icon>Join Us</v-btn>
   </v-app-bar>
@@ -32,8 +32,8 @@ export default {
     moveToServiceList(pageName) {
       this.$store.commit('moveToServiceList', { pageName })
     },
-    moveToTopPage() {
-      this.$store.commit('moveToTopPage')
+    moveToResearch() {
+      this.$router.push({ path: '/research' })
     },
   },
 }
