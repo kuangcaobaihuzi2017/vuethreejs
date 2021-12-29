@@ -2,7 +2,7 @@
   <v-app>
     <common-header></common-header>
     <v-main style="padding: 0px; height: 700px">
-      <common-body></common-body>
+      <router-view />
     </v-main>
     <v-footer dark padless>
       <v-card class="flex" flat tile>
@@ -13,12 +13,10 @@
 </template>
 
 <script>
-import CommonBody from '@/components/CommonBody'
 import CommonHeader from '@/components/CommonHeader'
 
 export default {
   components: {
-    CommonBody,
     CommonHeader,
   },
 }
