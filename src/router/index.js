@@ -12,6 +12,10 @@ const routes = [
     path: '/research',
     component: () => import('@/components/CommonResearch'),
   },
+  {
+    path: '/seservice',
+    component: () => import('@/components/CommonSeService'),
+  },
 ]
 
 const router = new VueRouter({

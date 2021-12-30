@@ -83,27 +83,26 @@ export default {
       this.intiHemiLight()
       this.initCamera()
       this.initRenderer()
-      this.importThinker()
-      this.importTopPageFont()
+      this.importBankModel()
+      this.importBankFont()
       this.initOrbitController()
       this.animate()
       this.container.appendChild(this.renderer.domElement)
     },
-    importThinker: function () {
+    importBankModel: function () {
       var model = new FBXLoader()
       model.load(
-        '/static/Thinker.fbx',
-        (thinker) => {
-          thinker.position.set(0, 0, -4)
-          thinker.rotation.set(0, (Math.PI * 2) / 13, 0)
-          thinker.scale.set(0.01, 0.01, 0.01)
-          thinker.traverse(function (child) {
+        '/static/bank.fbx',
+        (seBasic) => {
+          seBasic.position.set(-1, 0, -4)
+          seBasic.rotation.set(0, (Math.PI * 2) / 2.5, 0)
+          seBasic.scale.set(0.0045, 0.0045, 0.0045)
+          seBasic.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
               child.material.color.setRGB(0.18431, 0.3098, 0.3098)
-              child.material.transparent = true
             }
           })
-          this.scene.add(thinker)
+          this.scene.add(seBasic)
         },
         undefined,
         function (error) {
@@ -111,7 +110,7 @@ export default {
         }
       )
     },
-    importTopPageFont: function () {
+    importBankFont: function () {
       var font = new FontLoader()
       font.load('/static/07YasashisaGothic_Regular.json', (json) => {
         const color = 0x330066
@@ -121,28 +120,18 @@ export default {
           opacity: 0.4,
           side: THREE.DoubleSide,
         })
-        const message = '先端技術 ×素晴らしい発想 \n= 次世代動画エンジン'
+        const message = '銀行/保険'
         const shapes = json.generateShapes(message, 0.7)
         const geometry = new THREE.ShapeGeometry(shapes)
         geometry.computeBoundingBox()
         const xMid = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x)
         geometry.translate(xMid, 0, 0)
         const text = new THREE.Mesh(geometry, matLite)
-        text.rotation.set(0, (Math.PI * 3) / 6, 0)
-        text.position.set(0, 2, 0)
-        text.scale.set(0.8, 0.8, 0.8)
-        text.name = 'fontFront'
+        text.rotation.set(0, Math.PI / 2, 0)
+        text.position.set(-1, 1.5, -4)
+        text.scale.set(0.35, 0.35, 0.35)
+        text.name = 'fontFront2'
         this.scene.add(text)
-        const holeShapes = []
-        for (let i = 0; i < shapes.length; i++) {
-          const shape = shapes[i]
-          if (shape.holes && shape.holes.length > 0) {
-            for (let j = 0; j < shape.holes.length; j++) {
-              const hole = shape.holes[j]
-              holeShapes.push(hole)
-            }
-          }
-        }
       })
     },
   },
